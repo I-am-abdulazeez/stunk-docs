@@ -4,7 +4,7 @@ title: What is a Chunk?
 
 # What is a Chunk?
 
-A **chunk** is the smallest unit of state in Stunk. It holds a value and provides methods to **get, set, update, and subscribe** to changes. Unlike traditional state management, chunks are **independent, reactive, and highly flexible**.
+A **chunk** is the smallest unit of state in Stunk. It holds a value and provides methods to **get, set, and subscribe** to changes. Unlike traditional state management, chunks are **independent, reactive, and highly flexible**.
 
 ## Creating a Chunk
 
@@ -22,7 +22,7 @@ const name = chunk("Olamide");
 
 ## Interacting with a Chunk
 
-You can `get`, `set`, `update`, `destroy` and `reset` a chunk’s value:
+You can `get`, `set`, `destroy` and `reset` a chunk’s value:
 
 ```typescript
 // Get the current value
@@ -32,7 +32,7 @@ console.log(count.get()); // 0
 count.set(10);
 
 // Update based on the previous value
-count.update((prev) => prev + 1);
+count.set((prev) => prev + 1);
 
 // Reset to the initial value
 count.reset();
