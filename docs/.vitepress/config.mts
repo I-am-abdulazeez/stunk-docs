@@ -92,7 +92,13 @@ export default defineConfig({
           { text: 'State Selections - Readonly', link: '/read-only-values' },
         ]
       },
+
     ],
+
+    // footer: {
+    //   message: "Released under the MIT License.",
+    //   copyright: "© 2025 Stunk. Built with ❤️ by AbdulAzeez Olanrewaju",
+    // },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/I-am-abdulazeez/stunk' }
