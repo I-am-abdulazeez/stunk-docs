@@ -36,8 +36,6 @@ const Counter = () => {
 - `reset()` - Reset the `chunk` to its initial value. .
 - `destroy()` - Destroy the `chunk` and all its subscribers.
 
-  Use `set` when replacing state entirely and `update` when modifying based on the previous value.
-
 ## Using a Selector for Optimized Re-renders
 
 By default, `useChunk` causes a component to re-render whenever any part of the chunk changes. However, using a selector ensures that the component only re-renders when the selected part of the state updates.
