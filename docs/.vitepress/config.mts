@@ -4,7 +4,6 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Stunk",
   description: "Stunk is a framework-agnostic state management library that helps you manage your application's state in a clean and simple way. It uses a technique called Atomic State, breaking down state into smaller chunks that are easy to update, subscribe to, and manage.",
-  cleanUrls: true,
   head: [
     // Favicon
     ["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
