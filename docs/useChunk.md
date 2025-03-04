@@ -15,7 +15,7 @@ import { useChunk } from "stunk/react";
 const count = chunk(0);
 
 const Counter = () => {
-  const [value, _, update, reset] = useChunk(count);
+  const [value, set, reset] = useChunk(count);
 
   return (
     <div>
@@ -32,8 +32,7 @@ const Counter = () => {
 `useChunk(chunk)` returns a tuple:
 
 - `value` – The current state.
-- `set(newValue)` – Directly sets a new value.
-- `update(updaterFn)` – Updates the state using the previous value.
+- `set(newValue | updaterFn)` – Directly sets a new value or Updates the state using the previous value.
 - `reset()` - Reset the `chunk` to its initial value. .
 - `destroy()` - Destroy the `chunk` and all its subscribers.
 
