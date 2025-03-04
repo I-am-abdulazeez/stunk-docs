@@ -6,7 +6,7 @@ export default defineConfig({
   description: "Stunk is a framework-agnostic state management library that helps you manage your application's state in a clean and simple way. It uses a technique called Atomic State, breaking down state into smaller chunks that are easy to update, subscribe to, and manage.",
   head: [
     // Favicon
-    ["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
+    ["link", { rel: "icon", type: "image/png", href: "../public/favicon.png" }],
 
     // Meta Tags for SEO
     ["meta", { name: "author", content: "AbdulAzeez Olanrewaju" }],
@@ -16,7 +16,7 @@ export default defineConfig({
     // Open Graph (OG) Meta Tags for Social Media Sharing
     ["meta", { property: "og:title", content: "Stunk - Simple & Scalable State Management" }],
     ["meta", { property: "og:description", content: "Stunk is a framework-agnostic state management library designed for simplicity and performance." }],
-    ["meta", { property: "og:image", content: "/stunk-preview.png" }],
+    ["meta", { property: "og:image", content: "../public/stunk-preview.png" }],
     ["meta", { property: "og:url", content: "https://stunk.dev" }],
     ["meta", { property: "og:type", content: "website" }],
 
@@ -25,7 +25,7 @@ export default defineConfig({
     ["meta", { name: "twitter:site", content: "@dev_azeez" }],
     ["meta", { name: "twitter:title", content: "Stunk - Simple & Scalable State Management" }],
     ["meta", { name: "twitter:description", content: "Stunk is a modern state management library for JavaScript and Typescript applications." }],
-    ["meta", { name: "twitter:image", content: "/stunk-preview.png" }],
+    ["meta", { name: "twitter:image", content: "../public/stunk-preview.png" }],
 
     // Mobile Friendly Meta
     ["meta", { name: "viewport", content: "width=device-width, initial-scale=1.0" }],
