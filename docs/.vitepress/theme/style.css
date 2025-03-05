@@ -118,6 +118,11 @@
   }
 }
 
+:root {
+  --vp-c-bg: #030712; /* Change background */
+  --vp-c-bg-soft: #232329; /* Softer background for contrast */
+}
+
 /**
  * Component: Custom Block
  * -------------------------------------------------------------------------- */
