@@ -4,6 +4,8 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Stunk",
   description: "Stunk is a framework-agnostic state management library that helps you manage your application's state in a clean and simple way. It uses a technique called Atomic State, breaking down state into smaller chunks that are easy to update, subscribe to, and manage.",
+  appearance: 'force-dark',
+  lang: 'en-US',
   head: [
     // Favicon
     ["link", { rel: "icon", type: "image/png", href: "/favicon.png" }],
@@ -33,7 +35,6 @@ export default defineConfig({
 
   ],
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Examples', link: '/stunk-examples' },
@@ -94,14 +95,14 @@ export default defineConfig({
       },
 
     ],
-
-    // footer: {
-    //   message: "Released under the MIT License.",
-    //   copyright: "© 2025 Stunk. Built with ❤️ by AbdulAzeez Olanrewaju",
-    // },
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/I-am-abdulazeez/stunk' }
     ]
+  },
+  markdown: {
+    theme: {
+      light: 'one-light',
+      dark: 'plastic' // Change this to any Shiki theme
+    }
   }
 })
