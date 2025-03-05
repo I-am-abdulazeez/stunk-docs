@@ -50,8 +50,8 @@
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
   --vp-c-brand-1: var(--vp-c-indigo-1);
-  --vp-c-brand-2: var(--vp-c-indigo-2);
-  --vp-c-brand-3: var(--vp-c-indigo-3);
+  --vp-c-brand-2: #20dcad;
+  --vp-c-brand-3: #2af4c2;
   --vp-c-brand-soft: var(--vp-c-indigo-soft);
 
   --vp-c-tip-1: var(--vp-c-brand-1);
@@ -76,14 +76,14 @@
 
 :root {
   --vp-button-brand-border: transparent;
-  --vp-button-brand-text: var(--vp-c-white);
+  --vp-button-brand-text: #030712;
   --vp-button-brand-bg: var(--vp-c-brand-3);
   --vp-button-brand-hover-border: transparent;
-  --vp-button-brand-hover-text: var(--vp-c-white);
+  --vp-button-brand-hover-text: #030712;
   --vp-button-brand-hover-bg: var(--vp-c-brand-2);
   --vp-button-brand-active-border: transparent;
-  --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+  --vp-button-brand-active-text: #030712;
+  --vp-button-brand-active-bg: #2af4c2;
 }
 
 /**
@@ -94,7 +94,7 @@
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
-    #bd34fe 30%,
+    #2af4c2 30%,
     #41d1ff
   );
 
@@ -129,10 +129,29 @@
   --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
 }
 
+:root {
+  /* Active and hover sidebar link color */
+  --vp-c-brand: #2af4c2 !important;
+  --vp-c-brand-dark: #2af4c2 !important;
+  --vp-c-brand-light: #2af4c2 !important;
+  --vp-c-brand-1: #2af4c2 !important;
+}
+
 /**
  * Component: Algolia
  * -------------------------------------------------------------------------- */
 
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+/* Active route (currently selected) */
+.VPNavBarMenuLink.active {
+  color: #2af4c2 !important; /* Stunk brand color */
+}
+
+/* Hover effect */
+.VPNavBarMenuLink:hover {
+  color: #20e5b4 !important;
+  transition: color 0.2s ease-in-out;
 }
