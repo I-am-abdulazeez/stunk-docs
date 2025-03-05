@@ -43,13 +43,18 @@
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
 
+html,
+body {
+  background-color: #030712 !important;
+}
+
 :root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-brand-1: var(--vp-c-indigo-1);
+  /* --vp-c-brand-1: var(--vp-c-indigo-1); */
   --vp-c-brand-2: #20dcad;
   --vp-c-brand-3: #2af4c2;
   --vp-c-brand-soft: var(--vp-c-indigo-soft);
@@ -116,11 +121,6 @@
   :root {
     --vp-home-hero-image-filter: blur(68px);
   }
-}
-
-:root {
-  --vp-c-bg: #030712; /* Change background */
-  --vp-c-bg-soft: #232329; /* Softer background for contrast */
 }
 
 /**
