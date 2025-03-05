@@ -32,30 +32,35 @@
 
 <style scoped>
 .footer {
-  padding: 20px;
+  padding: 16px;
   font-size: 14px;
   background-color: #1b1b1f;
   color: #dfdfd6;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
 .footer-content {
   display: flex;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  text-align: center; /* Centers text on mobile */
 }
 
 .footer-left {
-  margin: 0;
+  flex: 1;
+  margin-bottom: 10px;
 }
 
 .footer-right {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 15px;
 }
 
@@ -68,5 +73,13 @@
 
 .footer-right a:hover {
   color: #2af4c2;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 </style>
