@@ -72,8 +72,8 @@ nameChunk.set("John");
 
 ### Why Use State Selection?
 
-✔️ Optimized Performance → Only updates when the selected value changes.
-✔️ Avoid Unnecessary Renders → Components subscribed to a selection won’t re-render if other properties change.
+✔️ Optimized Performance → Only updates when the selected value changes.  
+✔️ Avoid Unnecessary Renders → Components subscribed to a selection won’t re-render if other properties change.  
 ✔️ Readonly Safety → Prevents accidental state modifications outside the main chunk.
 
 ---
