@@ -53,7 +53,6 @@
 
 .footer-left {
   flex: 1;
-  margin-bottom: 10px;
 }
 
 .footer-right {
