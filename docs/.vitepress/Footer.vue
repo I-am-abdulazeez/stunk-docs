@@ -49,7 +49,6 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  text-align: center; /* Centers text on mobile */
 }
 
 .footer-left {
