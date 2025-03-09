@@ -57,12 +57,12 @@ nameChunk.subscribe((name) => console.log("Name changed:", name));
 themeChunk.subscribe((theme) => console.log("Theme changed:", theme));
 
 // Update the original chunk
-userChunk.update((state) => {
+userChunk.set((state) => {
   state.profile.name = "David"; // ✅ This will trigger `nameChunk` subscribers
 });
 
 // Updating unrelated properties does not trigger unnecessary re-renders
-userChunk.update((state) => {
+userChunk.set((state) => {
   state.settings.theme = "light"; // ✅ This will trigger `themeChunk` subscribers only
 });
 
