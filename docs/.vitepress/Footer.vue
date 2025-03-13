@@ -34,7 +34,7 @@
 .footer {
   padding: 16px;
   font-size: 14px;
-  background-color: #1b1b1f;
+  background-color: #030712;
   color: #dfdfd6;
   display: flex;
   justify-content: center;
