@@ -236,7 +236,7 @@ body {
   background: #18c2a1;
 }
 
-.VPNavScreen[data-v-e171555d] {
+.VPNavScreen {
   background-color: #030712 !important;
 }
 
@@ -245,5 +245,5 @@ body {
 }
 
 .VPNavBar.has-sidebar {
-  background-color: #030712 !important;
+  background-color: red !important;
 }
