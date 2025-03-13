@@ -181,11 +181,11 @@ body {
   background-color: #030712 !important;
 }
 
-.content-body[data-v-84a11e99] {
+.content-body {
   background-color: #030712 !important;
 }
 
-.container[data-v-da48a524] {
+.container {
   background-color: #030712 !important;
 }
 
@@ -237,5 +237,13 @@ body {
 }
 
 .VPNavScreen[data-v-e171555d] {
+  background-color: #030712 !important;
+}
+
+.VPNavBar {
+  background-color: #030712 !important;
+}
+
+.VPNavBar.has-sidebar {
   background-color: #030712 !important;
 }
