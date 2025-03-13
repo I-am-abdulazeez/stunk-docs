@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap");
+
 /**
  * Customize default theme styling by overriding CSS variables:
  * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
@@ -42,6 +44,11 @@
  * - `danger`: Used to show error, or dangerous message to the users. Used
  *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-font-family-base: "Figtree", "Inter", sans-serif;
+  --vp-font-family-mono: "Fira Code", monospace;
+}
 
 html,
 body {
@@ -150,13 +157,85 @@ body {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
-/* Active route (currently selected) */
+.VPNavBar {
+  background-color: #030712 !important;
+}
+
 .VPNavBarMenuLink.active {
-  color: #2af4c2 !important; /* Stunk brand color */
+  color: #2af4c2 !important;
 }
 
 /* Hover effect */
 .VPNavBarMenuLink:hover {
   color: #20e5b4 !important;
   transition: color 0.2s ease-in-out;
+}
+
+.VPFeature {
+  background-color: #27272a;
+  padding: 0.8rem;
+  border-radius: 10px;
+}
+
+.VPSidebar {
+  background-color: #030712 !important;
+}
+
+.content-body[data-v-84a11e99] {
+  background-color: #030712 !important;
+}
+
+.container[data-v-da48a524] {
+  background-color: #030712 !important;
+}
+
+.VPHomeHero .tagline {
+  font-size: 20px;
+}
+
+.VPButton.alt {
+  background-color: #202127 !important;
+}
+
+.VPButton.alt:hover {
+  background-color: #27272a !important;
+  transition: all 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e2f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #20e5b4;
+  border-radius: 4px;
+}
+
+.VPSidebar::-webkit-scrollbar-thumb:hover {
+  background: #18c2a1;
+}
+
+.VPSidebar::-webkit-scrollbar {
+  width: 1px;
+}
+
+.VPSidebar::-webkit-scrollbar-track {
+  background: #1e1e2f;
+}
+
+.VPSidebar::-webkit-scrollbar-thumb {
+  background: #20e5b4;
+  border-radius: 4px;
+}
+
+.VPSidebar::-webkit-scrollbar-thumb:hover {
+  background: #18c2a1;
+}
+
+.VPNavScreen[data-v-e171555d] {
+  background-color: #030712 !important;
 }
