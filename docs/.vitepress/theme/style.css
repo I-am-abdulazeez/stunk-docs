@@ -193,6 +193,22 @@ body {
   font-size: 20px;
 }
 
+.VPHomeHero .tagline {
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .VPHomeHero .tagline {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .VPHomeHero .tagline {
+    font-size: 14px;
+  }
+}
+
 .VPButton.alt {
   background-color: #202127 !important;
 }
@@ -203,8 +219,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px
+  width: 5px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-track {
