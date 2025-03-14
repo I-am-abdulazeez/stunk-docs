@@ -18,7 +18,7 @@ export default defineConfig({
     // Open Graph (OG) Meta Tags for Social Media Sharing
     ["meta", { property: "og:title", content: "Stunk - Simple & Scalable State Management" }],
     ["meta", { property: "og:description", content: "Stunk is a framework-agnostic state management library designed for simplicity and performance." }],
-    ["meta", { property: "og:image", content: "/stunk-preview.png" }],
+    ["meta", { property: "og:image", content: "https://stunk.vercel.app/stunk-preview.png" }],
     ["meta", { property: "og:url", content: "https://stunk.vercel.app/" }],
     ["meta", { property: "og:type", content: "website" }],
 
@@ -27,8 +27,7 @@ export default defineConfig({
     ["meta", { name: "twitter:site", content: "@dev_azeez" }],
     ["meta", { name: "twitter:title", content: "Stunk - Simple & Scalable State Management" }],
     ["meta", { name: "twitter:description", content: "Stunk is a modern state management library for JavaScript and Typescript applications." }],
-    ["meta", { name: "twitter:image", content: "/stunk-preview.png" }],
-
+    ["meta", { name: "twitter:image", content: "https://stunk.vercel.app/stunk-preview.png" }],
     // Mobile Friendly Meta
     ["meta", { name: "viewport", content: "width=device-width, initial-scale=1.0" }],
     ["link", { rel: "canonical", href: "https://stunk.vercel.app/" }]
@@ -102,7 +101,7 @@ export default defineConfig({
   markdown: {
     theme: {
       light: 'one-light',
-      dark: 'plastic' // Change this to any Shiki theme
+      dark: 'plastic'
     }
   }
 })
