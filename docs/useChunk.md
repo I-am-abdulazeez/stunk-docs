@@ -20,7 +20,7 @@ const Counter = () => {
   return (
     <div>
       <p>Count: {value}</p>
-      <button onClick={() => update((prev) => prev + 1)}>Increment</button>
+      <button onClick={() => set((prev) => prev + 1)}>Increment</button>
       <button onClick={() => reset()}>Reset</button>
     </div>
   );
