@@ -37,7 +37,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/stunk-examples' },
+      { text: 'Examples', link: '/examples' },
       { text: 'API Reference', link: '/api-reference' }
     ],
 
