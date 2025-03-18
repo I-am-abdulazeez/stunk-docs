@@ -12,6 +12,8 @@ This documentation covers everything you need to know about using Stunk effectiv
 - **Middleware** – Extend Stunk with `withHistory`, `withPersistence`, and custom middleware.
 - **Best Practices** – Optimize performance and structure state management effectively.
 
+You can also check our example repo: **[Stunk Examples](https://github.com/I-am-abdulazeez/stunk-examples)**
+
 ## 🔗 Getting Started
 
 Head over to the full documentation: **[Stunk Docs](http://stunk.vercel.app)**
