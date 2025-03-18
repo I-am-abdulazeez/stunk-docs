@@ -13,9 +13,6 @@ hero:
     - theme: alt
       text: API Reference
       link: /api-reference
-    - theme: alt
-      text: Examples
-      link: /examples
 
 features:
   - icon: '<img src="/fast.png" width="40" height="40" />'
