@@ -1,5 +1,9 @@
 # Stunk
 
+In this [repository](https://github.com/I-am-abdulazeez/stunk-examples/), you'll find **10 examples** that demonstrate various use cases of Stunk in a React application. You can explore different branches (**WIP**) to see additional integrations.
+
+You can also explore the [Live Examples here](https://stunk-examples.vercel.app).
+
 ## React Examples
 
 ### **Simple / Basic**
@@ -31,4 +35,3 @@
   style="border:0; border-radius: 8px; overflow:hidden;margin-top: 20px; margin-bottom: 20px"
   allowfullscreen
 ></iframe>
-
