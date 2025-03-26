@@ -8,9 +8,9 @@ Stunk's `asyncChunk` simplifies handling asynchronous state by automatically man
 
 🚀 Key Features
 
-✅ Built-in Loading & Error Handling – Tracks async state automatically.  
-✅ Type-Safe – Fully typed in TypeScript, ensuring correct data handling.  
-✅ Optimistic Updates – Modify data optimistically before confirmation.
+✅ **Built-in Loading & Error Handling** → Tracks async state automatically.  
+✅ **Type-Safe** → Fully typed in TypeScript, ensuring correct data handling.  
+✅ **Optimistic Updates** → Modify data optimistically before confirmation.
 
 ## 🔗 Creating an Async Chunk
 
@@ -79,10 +79,10 @@ user.mutate((currentUser) => ({
 
 ## Why Use Async Chunks?
 
-✔️ Simplifies API requests with automatic state tracking.  
-✔️ Eliminates boilerplate by handling loading and errors natively.  
-✔️ Ensures type safety and prevents incorrect updates.
+✅ Simplifies API requests with automatic state tracking.  
+✅ Eliminates boilerplate by handling loading and errors natively.  
+✅ Ensures type safety and prevents incorrect updates.
 
 ---
 
-Next: Before we learn how to merge multiple async states efficiently, let's me introduce the `once` utilities function. 🚀
+Next: Before we learn how to merge multiple async states efficiently, let's me introduce the `once` utility function. 🚀
