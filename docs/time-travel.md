@@ -66,10 +66,10 @@ This prevents the history from growing indefinitely and ensures efficient memory
 
 ## Why Use Time Travel?
 
-✅ Undo Mistakes – Easily revert state changes  
-✅ User-Friendly – Implement undo/redo features in UI  
-✅ Debugging – Track and analyze state changes over time
+✅ **Undo Mistakes** → Easily revert state changes  
+✅ **User-Friendly** → Implement undo/redo features in UI  
+✅ **Debugging** → Track and analyze state changes over time
 
 ---
 
-Next: Learn how to persist Stunk state across page refreshes! 🚀
+Next: Learn how to persist state across page refreshes! 🚀
