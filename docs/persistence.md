@@ -47,12 +47,12 @@ const encryptedChunk = withPersistence(chunk({ secret: "1234" }), {
 
 ## Why Use Persistence?
 
-✔️ Save user state across reloads  
-✔️ Improve user experience by retaining settings  
-✔️ Support custom storage and security methods
+✅ Save user state across reloads  
+✅ Improve user experience by retaining settings  
+✅ Support custom storage and security methods
 
 ---
 
-Next: Async Chunk – Handling Loading & Errors ⚡
+Next: `AsyncChunk` – Handling Loading & Errors ⚡
 
 Learn how to manage asynchronous state with built-in loading and error handling! 🚀
