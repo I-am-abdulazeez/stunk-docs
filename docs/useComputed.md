@@ -46,10 +46,10 @@ If either `price` or `discount` changes, `finalPrice` updates automatically.
 
 ## Why Use `useComputed`?
 
-✅ Multi-Chunk Computation – Easily derive values from multiple Chunks.  
-✅ Automatic Reactivity – Updates when any dependency changes.  
-✅ Optimized Performance – Uses memoization to prevent unnecessary re-renders.  
-✅ Simplified API – No need to manually subscribe to multiple chunks.
+✅ **Multi-Chunk Computation** → Easily derive values from multiple Chunks.  
+✅ **Automatic Reactivity** → Updates when any dependency changes.  
+✅ **Optimized Performance** → Uses memoization to prevent unnecessary re-renders.  
+✅ **Simplified API** → No need to manually subscribe to multiple chunks.
 
 ## 🚀 Conclusion
 
