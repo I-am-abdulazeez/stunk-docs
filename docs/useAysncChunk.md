@@ -58,9 +58,15 @@ Re-fetches the data using the original async function.
 ```tsx
 const { mutate } = useAsyncChunk(fetchUser);
 
-<button onClick={() => mutate((prev) => ({ ...prev, name: "Folashade" }))}>
-  Change Name
-</button>;
+const handleMutation = () => {
+  mutate((prev) => ({ ...prev, name: "Folashade" }));
+};
+
+return (
+  <div>
+    <button onClick={handleMutation}>Change Name</button>
+  </div>
+);
 ```
 
 Modifies `data` without triggering a new request.
@@ -77,10 +83,10 @@ Clears `data`, `error`, and `loading`, resetting the state.
 
 ## Why Use `useAsyncChunk`?
 
-✅ Automatic Reactivity – UI updates when async state changes.  
-✅ Handles Loading & Errors – Simplifies async logic.  
-✅ Built-in State Controls – Reload, mutate, and reset data easily.  
-✅ Efficient & Performant – No unnecessary re-renders.
+✅ **Automatic Reactivity** → UI updates when async state changes.  
+✅ **Handles Loading & Errors** → Simplifies async logic.  
+✅ **Built-in State Controls** → Reload, mutate, and reset data easily.  
+✅ **Efficient & Performant** → No unnecessary re-renders.
 
 ## 🚀 Conclusion
 
