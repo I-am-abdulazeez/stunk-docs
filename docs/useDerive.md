@@ -43,10 +43,10 @@ Even if other properties of `user` change, the component only re-renders if `age
 
 ### Why Use `useDerive`?
 
-✅ Derived Reactivity – Keeps computed values in sync with state.  
-✅ Optimized Performance – Only re-renders when the derived value changes.  
-✅ Read-Only Computation – Prevents accidental state mutations.  
-✅ Memoized for Efficiency – Avoids unnecessary recalculations.
+✅ **Derived Reactivity** → Keeps computed values in sync with state.  
+✅ **Optimized Performance** → Only re-renders when the derived value changes.  
+✅ **Read-Only Computation** → Prevents accidental state mutations.  
+✅ **Memoized for Efficiency** → Avoids unnecessary recalculations.
 
 ## 🚀 Conclusion
 
