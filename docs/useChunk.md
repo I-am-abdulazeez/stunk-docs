@@ -61,15 +61,14 @@ With a selector, the component only updates when `state.value` changes.
 ✅ **Selector Support** – Reduces unnecessary re-renders by picking only necessary parts of the state.  
 ✅ **Simplified API** – Easy-to-use functions for setting and updating state.
 
-## Edge Cases & Considerations
+## Considerations
 
 - If the selector always returns the same value (e.g., `() => 1`), the component won’t re-render.
-- `useChunk` ensures stable references for set and update, so they don’t cause unnecessary renders.
-- Avoid selecting deep objects unless using memoization, as new object references trigger renders.
+- `useChunk` ensures stable references for `set`, so they don’t cause unnecessary renders.
 
 ## 🚀 Conclusion
 
-`useChunk` provides an efficient and ergonomic way to integrate Stunk with React applications. By leveraging selectors and reactivity, it ensures performant state management with minimal boilerplate.
+`useChunk` provides an efficient way to integrate Stunk with React applications. By leveraging selectors and reactivity, it ensures performant state management with minimal boilerplate.
 
 ---
 
