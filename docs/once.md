@@ -24,7 +24,11 @@ const expensiveCalculation = once(() => {
   console.log("Expensive calculation running...");
   return numbersChunk.get().reduce((sum, num) => sum + num, 0);
 });
+```
 
+**Derive the chunk and subscribe**
+
+```typescript
 // Derived chunk using the once utility
 const totalChunk = numbersChunk.derive(() => expensiveCalculation());
 
@@ -38,9 +42,9 @@ numbersChunk.set([10, 20, 30, 40, 50]);
 
 ## Why Use once?
 
-✔️ Eliminates redundant computations by ensuring a function runs only once.  
-✔️ Enhances performance when dealing with costly operations.  
-✔️ Works seamlessly with chunks for optimized state updates.
+✅ Eliminates redundant computations by ensuring a function runs only once.  
+✅ Enhances performance when dealing with costly operations.  
+✅ Works seamlessly with chunks for optimized state updates.
 
 ---
 
