@@ -74,12 +74,56 @@ score.set(120);
 // Logs: "Value exceeded max (100), setting to 100"
 ```
 
+Here's another middleware example: **minMaxRange**, which ensures a number stays within a specified range.
+
+```typescript
+export const minMaxRange =
+  (min: number, max: number): Middleware<number> =>
+  (value, next) => {
+    if (value < min) {
+      console.warn(`Value below min (${min}), setting to ${min}`);
+      next(min);
+    } else if (value > max) {
+      console.warn(`Value exceeded max (${max}), setting to ${max}`);
+      next(max);
+    } else {
+      next(value);
+    }
+  };
+
+// Usage:
+const temperature = chunk(25, [minMaxRange(0, 50)]);
+
+temperature.set(60); // Logs: "Value exceeded max (50), setting to 50"
+console.log(temperature.get()); // 50
+
+temperature.set(-10); // Logs: "Value below min (0), setting to 0"
+console.log(temperature.get()); // 0
+```
+
+Here's another middleware example: `debounceSet`, which delays updates to prevent rapid state changes.
+
+```typescript
+export const debounceSet =
+  (delay: number): Middleware<any> =>
+  (value, next) => {
+    clearTimeout((next as any)._debounceTimer);
+    (next as any)._debounceTimer = setTimeout(() => next(value), delay);
+  };
+
+// Usage:
+const searchQuery = chunk("", [debounceSet(300)]);
+
+searchQuery.set("Hel");
+searchQuery.set("Hello"); // Only "Hello" will be set after 300ms
+```
+
 ## Why Use Middleware?
 
-✔️ Encapsulate Logic – Keep validation and transformation separate from app logic.  
-✔️ Chain Multiple Behaviors – Stack middlewares for powerful state control.  
-✔️ Reusability – Use the same middleware across different chunks.
+✅ **Encapsulate Logic** → Keep validation and transformation separate from app logic.  
+✅ **Chain Multiple Behaviors** → Stack middlewares for powerful state control.  
+✅ **Reusability** → Use the same middleware across different chunks.
 
 ---
 
-Want to undo or redo state changes? Let’s explore time travel in Stunk! 🚀
+Want to `undo` or `redo` state changes? Let’s explore **time travel** in Stunk! 🚀
