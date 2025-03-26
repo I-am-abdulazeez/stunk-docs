@@ -18,15 +18,27 @@ const userChunk = chunk({
   age: 30,
   email: "olamide@example.com",
 });
+```
 
-// Select specific properties (readonly)
+**Select and subscribe**
+
+```typescript
+// Select specific properties (readonly) and subscribe to receive updates
 const nameChunk = select(userChunk, (state) => state.name);
 const ageChunk = select(userChunk, (state) => state.age);
 
 nameChunk.subscribe((name) => console.log("Name changed:", name));
 // Will only re-render if `name` changes.
+```
 
-nameChunk.set("Fola"); // ❌ This will throw an error! nameChunk is readonly.
+**Want to set a selected `chunk`?, set the source instead**
+
+```typescript
+// ❌ This will throw an error! nameChunk is readonly.
+nameChunk.set("Fola");
+
+// ✅ This is valid.
+userChunk.set((state) => ({ ...state, name: "Fola" }));
 ```
 
 ## Selecting Nested Properties
@@ -47,7 +59,11 @@ const userChunk = chunk({
     notifications: true,
   },
 });
+```
 
+**Select and subscribe**
+
+```typescript
 // Select deeply nested properties (readonly)
 const nameChunk = select(userChunk, (state) => state.profile.name);
 const themeChunk = select(userChunk, (state) => state.settings.theme);
@@ -55,7 +71,11 @@ const themeChunk = select(userChunk, (state) => state.settings.theme);
 // Subscribe to selected properties
 nameChunk.subscribe((name) => console.log("Name changed:", name));
 themeChunk.subscribe((theme) => console.log("Theme changed:", theme));
+```
 
+Updates
+
+```typescript
 // Update the original chunk
 userChunk.set((state) => {
   state.profile.name = "David"; // ✅ This will trigger `nameChunk` subscribers
