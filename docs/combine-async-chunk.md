@@ -6,13 +6,12 @@ title: Combine Async Chunks
 
 The `combineAsyncChunks` utility lets you merge multiple async chunks into one, ensuring they stay reactive and synchronized. This is useful when handling multiple related API calls, like fetching user data and posts at the same time.
 
-## ✨ Why Use combineAsyncChunks?
+## Key Features?
 
-✅ Maintains Reactivity: Automatically updates when any async chunk changes.  
-✅ Preserves Data on Reloads: Keeps previous data intact while fetching new updates.  
-✅ Handles Errors Gracefully: Propagates errors properly across combined chunks.
+✅ Automatically re-renders UI when either userChunk or postsChunk updates.  
+✅ Handles loading and errors seamlessly.
 
-## 1️⃣ Fetching Individual Async Chunks
+## Fetching Individual Async Chunks
 
 ```typescript
 import { asyncChunk, combineAsyncChunks } from "stunk";
@@ -38,7 +37,7 @@ const postsChunk = asyncChunk(
 );
 ```
 
-## 2️⃣ Combining Async Chunks
+## Combining Async Chunks
 
 ```typescript
 const profileChunk = combineAsyncChunks({
@@ -49,7 +48,7 @@ const profileChunk = combineAsyncChunks({
 
 This merges `userChunk` and `postsChunk` into a single reactive `chunk`, keeping their `states` in sync.
 
-## 3️⃣ Subscribing to the Combined State
+## Subscribing to the Combined State
 
 ```typescript
 profileChunk.subscribe(({ loading, error, data }) => {
@@ -63,7 +62,10 @@ profileChunk.subscribe(({ loading, error, data }) => {
 });
 ```
 
-✔️ Automatically re-renders UI when either userChunk or postsChunk updates.  
-✔️ Handles loading and errors seamlessly.
+## ✨ Why Use `combineAsyncChunks`?
 
-More powerful `utilities` coming soon! 🔥
+✅ Maintains Reactivity: Automatically updates when any async chunk changes.  
+✅ Preserves Data on Reloads: Keeps previous data intact while fetching new updates.  
+✅ Handles Errors Gracefully: Propagates errors properly across combined chunks.
+
+More powerful `utils` coming soon! 🔥
