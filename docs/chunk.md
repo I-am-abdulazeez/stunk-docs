@@ -75,86 +75,48 @@ count.set(10);
 // "Double count: 20"
 ```
 
-**Derive support Object Returns!**
+## Deriving Chunks with Objects
 
-You can now return objects directly, and Stunk will keep everything reactive, ensuring object-based derivations remain stable while preventing unnecessary re-renders. Let's take a look at an example:
+Sometimes, you want to compute a few values from your state and group them together. With Stunk, you can **return an object** from `derive`, and everything inside stays reactive.
+
+Let’s say you’re tracking a user’s name and age:
+
+```ts
+const name = chunk("Olamide");
+const age = chunk(24);
+```
+
+You can create a derived chunk with a summary object:
 
 ```typescript
-export type Todo = {
-  id: string;
-  text: string;
-  completed: boolean;
-  categoryId: string;
-  createdAt: Date;
-};
-
-// Create the chunk
-const todosChunk = chunk<Todo[]>([]);
-
-// Derive an object based on `todosChunk`
-export const stats = todosChunk.derive((allTodos) => ({
-  total: allTodos.length,
-  completed: allTodos.filter((todo) => todo.completed).length,
-  active: allTodos.filter((todo) => !todo.completed).length,
+const userInfo = age.derive((userAge) => ({
+  greeting: `Hello, ${name.get()}!`,
+  isAdult: userAge >= 18,
 }));
 ```
 
-Let's set todosChunk...
+Now, whenever `age` changes, `userInfo` updates too:
 
 ```typescript
-// When we set todos
-const newTodos = [
-  {
-    id: "1",
-    text: "Learn Stunk",
-    completed: true,
-    categoryId: "work",
-    createdAt: new Date(),
-  },
-  {
-    id: "2",
-    text: "Build a project",
-    completed: false,
-    categoryId: "work",
-    createdAt: new Date(),
-  },
-];
-todosChunk.set(newTodos);
+userInfo.subscribe((info) => {
+  console.log(info.greeting); // "Hello, Olamide!"
+  console.log("Is adult?", info.isAdult);
+});
 
-// `stats` will be reactive based on changes in `todosChunk`
-// Logs: stats: { total: 2, completed: 1, active: 1 }
+age.set(17);
+// Logs:
+// Hello, Olamide!
+// Is adult? false
 ```
 
-Let's update `todosChunk` again...
-
-```typescript
-// Updating a todo
-const latestTodos = [
-  {
-    id: "1",
-    text: "Learn Stunk",
-    completed: true,
-    categoryId: "work",
-    createdAt: new Date(),
-  },
-  {
-    id: "2",
-    text: "Build a project",
-    completed: true,
-    categoryId: "work",
-    createdAt: new Date(),
-  },
-];
-todosChunk.set(latestTodos);
-
-// Logs: stats: { total: 2, completed: 2, active: 0 }
-```
+You can also make it depend on multiple `chunks` using `computed`, but for now, this shows how easy it is to return structured data from a `derive`.
 
 This makes **Stunk** even more powerful when working with `derived` states!
 
 **Why this Matters**
 
-- More efficient updates: Only affected properties trigger re-renders.
-- Cleaner & more readable code: Work with structured state directly.
+- Keeps logic clean and grouped
+- Stays reactive — no manual updates needed
+- Great for summaries and UI views
 
 Simple, right? But there's more! Next, let's explore State Selection and how to pick specific parts of your state efficiently.
