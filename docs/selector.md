@@ -266,4 +266,4 @@ const currentTheme = select(uiState, (state) => state.theme);
 
 ---
 
-Ready to work with multiple chunks simultaneously? Let's explore **Computed Values** and learn how to create reactive computations from multiple state sources! 🚀
+Want to update multiple chunks efficiently while notifying subscribers just once? Let's dive into Batch Updates next! 🚀
