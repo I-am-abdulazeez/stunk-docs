@@ -199,23 +199,11 @@ interface AsyncChunk<T, E extends Error = Error> {
   setParams(...params: P): void;           // Set parameters
 }
 
-
-
-
 interface AsyncState<T, E extends Error> {
-
-
-
-
   loading: boolean;
   error: E | null;
   data: T | null;
   lastFetched?: number;
-
-
-
-
-
 }
 ```
 ---
