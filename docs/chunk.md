@@ -1,200 +1,263 @@
+Perfect 👌 — got it.
+Here’s a **fully rewritten, simple and clear “What is a Chunk?”** doc for Stunk, based on your updated API and preferences (with Nigerian names included).
+It keeps the friendly tone, avoids jargon, and matches the latest implementation details.
+
+---
+
+````markdown
 ---
 title: What is a Chunk?
 ---
 
 # What is a Chunk?
 
-A **chunk** is the smallest unit of state in Stunk. It holds a value and provides methods to **get, set, and subscribe** to changes. Unlike traditional state management, chunks are **independent, reactive, and highly flexible**.
+A **chunk** is the smallest unit of state in Stunk.  
+It holds a value and gives you simple tools to **get**, **set**, **subscribe**, and **react** to changes — without all the boilerplate of traditional state management.
+
+Chunks are **independent, reactive, and efficient**.  
+Each chunk manages its own state and subscribers, making it super easy to build responsive apps.
+
+---
 
 ## Creating a Chunk
 
-A chunk is created using the `chunk` function:
+You create a chunk using the `chunk()` function.
 
-```typescript
+```ts
 import { chunk } from "stunk";
 
-// Create a chunk holding a number
+// A number chunk
 const count = chunk(0);
 
-// Create a chunk holding a string
-const name = chunk("Olamide");
+// A string chunk
+const name = chunk("Abdulzeez");
 
-// Create a chunk with an object
-const user = chunk({ name: "Olamide", age: 24 });
-```
+// An object chunk
+const user = chunk({ name: "Fola", age: 25 });
+````
 
-> **Note:** Chunks cannot be initialized with `null` values. This prevents common runtime errors and ensures type safety.
+> ⚠️ **Note:** Chunks cannot start with `null`.
+> This helps prevent common runtime errors and keeps your data consistent.
 
-## Interacting with a Chunk
+---
 
-You can interact with chunks using several core methods:
+## Working with a Chunk
 
-```typescript
+Chunks have simple methods for interacting with the value.
+
+```ts
 // Get the current value
 console.log(count.get()); // 0
 
 // Set a new value
 count.set(10);
 
-// Update based on the previous value
-count.set((prev) => prev + 1);
+// Update based on the current value
+count.set(prev => prev + 1);
 
-// Reset to the initial value
+// Reset back to the initial value
 count.reset();
 
-// Destroy the chunk and all its subscribers
+// Destroy the chunk completely
 count.destroy();
 ```
 
-### Functional Updates
+---
 
-Chunks support functional updates, making it easy to update values based on their current state:
+## Functional Updates
 
-```typescript
+When your new value depends on the current one, you can pass a function to `set()`:
+
+```ts
 const todos = chunk([]);
 
 // Add a new todo
-todos.set(current => [...current, { id: 1, text: "Learn Stunk" }]);
+todos.set(current => [...current, { id: 1, task: "Learn Stunk" }]);
 
-// Toggle completion status
-todos.set(current => 
-  current.map(todo => 
-    todo.id === 1 ? { ...todo, completed: !todo.completed } : todo
+// Toggle completion
+todos.set(current =>
+  current.map(todo =>
+    todo.id === 1 ? { ...todo, done: !todo.done } : todo
   )
 );
 ```
 
+---
+
 ## Reactivity with Subscriptions
 
-Chunks allow you to react to state changes by subscribing:
+You can listen for changes using `subscribe()`.
+It runs immediately with the current value and again whenever the chunk updates.
 
-```typescript
-// Subscribe returns an unsubscribe function
+```ts
+const count = chunk(0);
+
 const unsubscribe = count.subscribe((value) => {
   console.log("Count changed:", value);
 });
 
-count.set(5); // Logs: "Count changed: 5"
+count.set(5); // → "Count changed: 5"
 
-// Clean up when done
+// Stop listening
 unsubscribe();
 ```
 
-> **Important:** Subscribers are called immediately upon subscription with the current value, and then on every subsequent change.
+---
 
-## Batching Updates
+## Batching Multiple Updates
 
-When updating multiple chunks simultaneously, you can batch updates to prevent unnecessary re-renders:
+When changing multiple chunks at once, use `batch()` to avoid unnecessary re-renders.
 
-```typescript
-import { batch } from "stunk";
+```ts
+import { batch, chunk } from "stunk";
 
-const firstName = chunk("John");
-const lastName = chunk("Doe");
+const firstName = chunk("Aduke");
+const lastName = chunk("Asake");
 
 batch(() => {
-  firstName.set("Jane");
-  lastName.set("Smith");
+  firstName.set("Fola");
+  lastName.set("Qudus");
 });
-// Both updates are processed together in a single batch
+// Both updates run together in one efficient batch
 ```
 
-## Deriving New Chunks
+---
 
-With Stunk, you can create **derived chunks** that automatically update when their source changes:
+## Derived Chunks
 
-```typescript
+A **derived chunk** creates a new chunk whose value depends on another chunk.
+It updates automatically whenever the source chunk changes.
+
+```ts
 const count = chunk(5);
+const doubleCount = count.derive(value => value * 2);
 
-// Create a derived chunk that doubles the count
-const doubleCount = count.derive((value) => value * 2);
-
-// Subscribe to receive updates
-count.subscribe((newValue) => console.log("Count:", newValue));
-doubleCount.subscribe((newValue) => console.log("Double count:", newValue));
+count.subscribe(v => console.log("Count:", v));
+doubleCount.subscribe(v => console.log("Double:", v));
 
 count.set(10);
-// Will log:
-// "Count: 10"
-// "Double count: 20"
+// → Count: 10
+// → Double: 20
 ```
 
-### Deriving Chunks with Objects
+### Example with Objects
 
-You can return complex objects from `derive`, and everything inside stays reactive:
+Derived chunks can return objects too:
 
-```typescript
-const name = chunk("Olamide");
+```ts
 const age = chunk(24);
+const name = chunk("Fola");
 
-// Create a derived chunk with a summary object
-const userInfo = age.derive((userAge) => ({
-  greeting: `Hello, ${name.get()}!`,
+const userInfo = age.derive(userAge => ({
+  message: `Hi ${name.get()}!`,
   isAdult: userAge >= 18,
-  category: userAge < 13 ? 'child' : userAge < 20 ? 'teen' : 'adult'
+  stage: userAge < 13 ? "child" : userAge < 20 ? "teen" : "adult"
 }));
 
-userInfo.subscribe((info) => {
-  console.log(info.greeting); // "Hello, Olamide!"
-  console.log("Is adult?", info.isAdult);
-  console.log("Category:", info.category);
+userInfo.subscribe(info => {
+  console.log(info.message);
+  console.log("Adult?", info.isAdult);
+  console.log("Stage:", info.stage);
 });
 
 age.set(17);
-// Logs:
-// Hello, Olamide!
-// Is adult? false
-// Category: teen
+// → Hi Fola!
+// → Adult? false
+// → Stage: teen
 ```
 
-## Advanced Features
+---
 
-### Middleware Support
+## Middleware
 
-Chunks support middleware for intercepting and transforming values during updates:
+Chunks can use **middleware** to control or modify values before they’re stored.
+You can use it for logging, validation, or data transformation.
 
-```typescript
-const loggerMiddleware = (value, next) => {
-  console.log('Setting value:', value);
+```ts
+const logger = (value, next) => {
+  console.log("Setting value:", value);
   next(value);
 };
 
-const validationMiddleware = (value, next) => {
-  if (typeof value === 'number' && value >= 0) {
+const validateAge = (value, next) => {
+  if (typeof value === "number" && value >= 0) {
     next(value);
   } else {
-    throw new Error('Value must be a non-negative number');
+    throw new Error("Age must be a non-negative number");
   }
 };
 
-const count = chunk(0, [loggerMiddleware, validationMiddleware]);
+const age = chunk(24, [logger, validateAge]);
+age.set(30); // Logs: "Setting value: 30"
 ```
 
-### Memory Management
+You can also name your middleware for better debugging:
 
-Chunks automatically manage their internal state and subscriptions:
+```ts
+const middleware = [
+  { name: "logger", fn: logger },
+  { name: "validator", fn: validateAge }
+];
 
-```typescript
-const chunk1 = chunk("hello");
-const derived = chunk1.derive(value => value.toUpperCase());
-
-// When you destroy the parent chunk, derived chunks are also cleaned up
-chunk1.destroy();
+const age = chunk(20, middleware);
 ```
+
+---
+
+## Validation Warnings
+
+Stunk helps catch mistakes by warning when you add **unexpected properties** to an object.
+
+```ts
+const user = chunk({ name: "Fola", age: 25 });
+
+// This triggers a warning
+user.set({ name: "Fola", age: 25, city: "Lagos" });
+```
+
+The console will show a clear warning that “city” is not part of the original shape.
+
+---
+
+## Cleaning Up
+
+When you’re done with a chunk, call `destroy()` to clean up its state and subscribers.
+
+```ts
+const message = chunk("Hello");
+const upper = message.derive(value => value.toUpperCase());
+
+message.destroy(); // cleans up everything, including derived chunks
+```
+
+---
 
 ## Best Practices
 
-1. **Initialize with meaningful defaults**: Always provide sensible initial values
-2. **Use functional updates**: For complex state updates, prefer functional updates over direct mutations
-3. **Clean up subscriptions**: Always unsubscribe when components unmount or cleanup is needed
-4. **Batch related updates**: Use `batch()` when updating multiple related chunks
-5. **Keep chunks focused**: Each chunk should represent a single concern or piece of state
+1. **Start with meaningful defaults** – never initialize with `null`.
+2. **Use functional updates** when the new value depends on the current one.
+3. **Unsubscribe** when you no longer need updates.
+4. **Batch related updates** for performance.
+5. **Keep chunks focused** — each should represent a single piece of state.
 
-## What's Next?
+---
 
-Now that you understand chunks, you can explore more advanced features:
-- **State Selection**: Learn how to efficiently select parts of your state
-- **Computed Values**: Discover how to create reactive computations from multiple chunks
-- **Async Chunks**: Handle asynchronous state with built-in loading and error states
+## Summary
 
-Chunks are the foundation of Stunk's reactivity system. Master them, and you'll have a powerful tool for managing application state!
+Chunks are the **core of Stunk’s reactivity system**.
+They’re small, fast, and easy to reason about — perfect for building clean, maintainable apps.
+
+Once you understand chunks, you’re ready to move on to:
+
+* **State Selection**
+* **Computed Chunks**
+* **Async State**
+
+Master chunks, and you’ve mastered the heart of Stunk.
+
+```
+
+---
+
+Would you like me to make this version a bit more **developer-reference style** (with method tables and type signatures next to each method), or keep this **tutorial-style** tone for all your next pages too?
+```
