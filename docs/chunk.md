@@ -10,8 +10,6 @@ It holds a value and gives you simple tools to **get**, **set**, **subscribe**, 
 Chunks are **independent, reactive, and efficient**.  
 Each chunk manages its own state and subscribers, making it super easy to build responsive apps.
 
----
-
 ## Creating a Chunk
 
 You create a chunk using the `chunk()` function.
@@ -32,7 +30,6 @@ const user = chunk({ name: "Fola", age: 25 });
 > ⚠️ **Note:** Chunks cannot start with `null`.
 > This helps prevent common runtime errors and keeps your data consistent.
 
----
 
 ## Working with a Chunk
 
@@ -55,8 +52,6 @@ count.reset();
 count.destroy();
 ```
 
----
-
 ## Functional Updates
 
 When your new value depends on the current one, you can pass a function to `set()`:
@@ -74,8 +69,6 @@ todos.set(current =>
   )
 );
 ```
-
----
 
 ## Reactivity with Subscriptions
 
@@ -95,8 +88,6 @@ count.set(5); // → "Count changed: 5"
 unsubscribe();
 ```
 
----
-
 ## Batching Multiple Updates
 
 When changing multiple chunks at once, use `batch()` to avoid unnecessary re-renders.
@@ -113,8 +104,6 @@ batch(() => {
 });
 // Both updates run together in one efficient batch
 ```
-
----
 
 ## Derived Chunks
 
@@ -159,8 +148,6 @@ age.set(17);
 // → Stage: teen
 ```
 
----
-
 ## Middleware
 
 Chunks can use **middleware** to control or modify values before they’re stored.
@@ -195,8 +182,6 @@ const middleware = [
 const age = chunk(20, middleware);
 ```
 
----
-
 ## Validation Warnings
 
 Stunk helps catch mistakes by warning when you add **unexpected properties** to an object.
@@ -210,7 +195,6 @@ user.set({ name: "Fola", age: 25, city: "Lagos" });
 
 The console will show a clear warning that “city” is not part of the original shape.
 
----
 
 ## Cleaning Up
 
@@ -223,8 +207,6 @@ const upper = message.derive(value => value.toUpperCase());
 message.destroy(); // cleans up everything, including derived chunks
 ```
 
----
-
 ## Best Practices
 
 1. **Start with meaningful defaults** – never initialize with `null`.
@@ -232,8 +214,6 @@ message.destroy(); // cleans up everything, including derived chunks
 3. **Unsubscribe** when you no longer need updates.
 4. **Batch related updates** for performance.
 5. **Keep chunks focused** — each should represent a single piece of state.
-
----
 
 ## Summary
 
@@ -247,7 +227,3 @@ Once you understand chunks, you’re ready to move on to:
 * **Async State**
 
 Master chunks, and you’ve mastered the heart of Stunk.
-
-```
-
----
