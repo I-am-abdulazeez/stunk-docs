@@ -1,1 +1,4 @@
 node_modules
+.vitepress
+docs/public/api
+
