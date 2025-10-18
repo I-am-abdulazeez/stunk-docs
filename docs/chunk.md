@@ -1,10 +1,3 @@
-Perfect 👌 — got it.
-Here’s a **fully rewritten, simple and clear “What is a Chunk?”** doc for Stunk, based on your updated API and preferences (with Nigerian names included).
-It keeps the friendly tone, avoids jargon, and matches the latest implementation details.
-
----
-
-````markdown
 ---
 title: What is a Chunk?
 ---
