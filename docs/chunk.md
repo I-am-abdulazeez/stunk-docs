@@ -251,6 +251,3 @@ Master chunks, and you’ve mastered the heart of Stunk.
 ```
 
 ---
-
-Would you like me to make this version a bit more **developer-reference style** (with method tables and type signatures next to each method), or keep this **tutorial-style** tone for all your next pages too?
-```
