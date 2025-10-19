@@ -2,210 +2,144 @@
 title: Async State
 ---
 
-# ⚡ Async State – Managing Asynchronous Data
+# ⚡ Async State
 
-Stunk's `asyncChunk` eliminates the boilerplate of async state management by automatically handling loading states, errors, retries, and caching. Built for modern applications that need robust data fetching.
+`asyncChunk` helps you handle loading, errors, retries, and caching automatically — perfect for fetching data or running async operations without stress.
 
-## 🚀 Key Features
+## 🚀 What It Handles for You
 
-✅ **Automatic State Management** → Loading, error, and data states handled automatically  
-✅ **Smart Caching & Refresh** → Configurable stale time and cache invalidation  
-✅ **Retry Logic** → Built-in retry with exponential backoff  
-✅ **Optimistic Updates** → Mutate data optimistically with rollback support  
-✅ **Type-Safe** → Full TypeScript support with proper error typing  
-✅ **Framework Agnostic** → Works everywhere, React hooks included  
+✅ Loading, error, and data states  
+✅ Caching and background refresh  
+✅ Retry with delay  
+✅ Optimistic updates  
+✅ Type-safe and framework-agnostic  
 
-## 🔗 Basic Usage
+## Basic Example
 
-### Simple Data Fetching
-
-```typescript
+```ts
 import { asyncChunk } from "stunk";
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+type User = { id: number; name: string; email: string };
 
-
-// Basic async chunk
 const userChunk = asyncChunk<User>(async () => {
-  const response = await fetch("/api/user");
-  if (!response.ok) throw new Error("Failed to fetch user");
-  return response.json();
+  const res = await fetch("/api/user");
+  if (!res.ok) throw new Error("Failed to fetch user");
+  return res.json();
 });
 
-
-// Subscribe to state changes
 userChunk.subscribe(({ loading, error, data }) => {
   if (loading) console.log("Loading user...");
   if (error) console.log("Error:", error.message);
-  if (data) console.log("User loaded:", data.name);
+  if (data) console.log("Loaded:", data.name);
 });
-```
+````
 
-### Parameterized Fetching
+## Parameterized Fetch
 
-```typescript
-// Async chunk with parameters
-const userChunk = asyncChunk<User, Error, [number]>(
-  async (userId: number) => {
-    const response = await fetch(`/api/users/${userId}`);
-    if (!response.ok) throw new Error("User not found");
-    return response.json();
-  }
-);
-
-// Load specific user
-await userChunk.reload(123);
-
-
-// Or set params for future calls
-userChunk.setParams(123);
-```
-
-## ⚙️ Advanced Configuration
-
-### Caching and Refresh Strategies
-
-```typescript
-const userChunk = asyncChunk<User>(fetchUser, {
-  refresh: {
-    staleTime: 60000,      // Data fresh for 1 minute
-    cacheTime: 300000,     // Cache for 5 minutes
-    refetchInterval: 30000 // Auto-refresh every 30 seconds
-  },
-  retryCount: 3,           // Retry failed requests 3 times
-  retryDelay: 1000,        // Wait 1 second between retries
-  enabled: true,           // Start fetching immediately
-});
-```
-
-### Conditional Fetching
-
-```typescript
-const userChunk = asyncChunk<User>(fetchUser, {
-  enabled: false // Don't fetch on creation
+```ts
+const userChunk = asyncChunk<User, Error, [number]>(async (id) => {
+  const res = await fetch(`/api/users/${id}`);
+  if (!res.ok) throw new Error("User not found");
+  return res.json();
 });
 
-// Enable fetching when needed
-userChunk.reload(); // Manually trigger fetch
-// Or with parameters
-const postChunk = asyncChunk<Post[], Error, [string]>(
-  async (userId: string) => {
-    if (!userId) throw new Error("User ID required");
-    return fetchUserPosts(userId);
-  },
-  { enabled: false }
-);
+// Load a specific user
+await userChunk.reload(7);
 
-// Only fetch when we have a valid user ID
-if (currentUserId) {
-  postChunk.reload(currentUserId);
-}
+// Or set the param for later
+userChunk.setParams(7);
 ```
 
-## 🔄 Data Operations
+## Caching and Refresh
 
-### Manual Reloading
-
-
-```typescript
-// Force reload (ignores cache)
-await userChunk.reload();
-
-// Smart refresh (respects stale time)
-await userChunk.refresh();
-
-// With parameters
-await userChunk.reload(newUserId);
-```
-
-### Optimistic Updates
-
-```typescript
-// Optimistically update user data
-userChunk.mutate((currentUser) => {
-  if (!currentUser) return { id: 0, name: "New User", email: "" };
-  
-  return {
-    ...currentUser,
-    name: "Updated Name"
-  };
-});
-
-// The mutation is type-safe - TypeScript will catch errors
-userChunk.mutate((user) => ({
-  ...user,
-  invalidProperty: "value" // ❌ TypeScript Error
-}));
-```
-
-### State Management
-
-```typescript
-// Reset to initial state
-userChunk.reset();
-
-// Destroy the chunk completely
-userChunk.destroy();
-```
-
-### Performance Optimization
-
-```typescript
-// Use stale-while-revalidate pattern
+```ts
 const dataChunk = asyncChunk(fetchData, {
   refresh: {
-    staleTime: 30000,    // Consider data stale after 30 seconds
-    cacheTime: 600000,   // Keep in cache for 10 minutes
-  }
+    staleTime: 60_000,    // Fresh for 1 min
+    cacheTime: 300_000,   // Keep cached for 5 mins
+    refetchInterval: 30_000 // Auto-refresh every 30s
+  },
+  retryCount: 3,
+  retryDelay: 1000,
+});
+```
+
+## Conditional Fetch
+
+```ts
+const userChunk = asyncChunk(fetchUser, { enabled: false });
+
+// Fetch manually when ready
+await userChunk.reload();
+
+// Or use parameters
+const postsChunk = asyncChunk(fetchPosts, { enabled: false });
+if (userId) postsChunk.reload(userId);
+```
+
+## Reload & Refresh
+
+```ts
+await userChunk.reload();  // Force reload
+await userChunk.refresh(); // Smart refresh (uses cache)
+```
+
+## Optimistic Update
+
+```ts
+userChunk.mutate((user) => ({
+  ...user!,
+  name: "Fola Updated"
+}));
+
+// Rollback on failure
+try {
+  await updateUserAPI({ name: "Fola Updated" });
+} catch {
+  userChunk.reload(); // revert
+}
+```
+
+## Pagination Example
+
+```ts
+const usersChunk = asyncChunk(fetchUsers, {
+  pagination: { pageSize: 10, mode: "accumulate" },
 });
 
-// Preload data
-dataChunk.refresh(); // Load in background
-// Use optimistic updates for better UX
-function updateUser(updates: Partial<User>) {
-  // Update UI immediately
-  userChunk.mutate(user => ({ ...user, ...updates }));
-  // Send to server
-  updateUserAPI(updates).catch(() => {
-    // Revert on error
-    userChunk.reload();
-  });
-}
+await usersChunk.nextPage(); // Load more
+await usersChunk.goToPage(3);
 ```
 
-## 🔧 API Reference
+## Reset and Cleanup
 
-### AsyncChunk Interface
+```ts
+userChunk.reset();   // Reset to initial
+userChunk.destroy(); // Full cleanup
+```
 
+## Interface (Summary)
 
-```typescript
-interface AsyncChunk<T, E extends Error = Error> {
-  // Core chunk methods
-  get(): AsyncState<T, E>;
-  set(state: AsyncState<T, E>): void;
-  subscribe(callback: (state: AsyncState<T, E>) => void): () => void;
+```ts
+interface AsyncChunk<T> {
+  get(): { loading: boolean; error: Error | null; data: T | null };
+  reload(...params: any[]): Promise<void>;
+  refresh(...params: any[]): Promise<void>;
+  mutate(fn: (data: T | null) => T): void;
+  reset(): void;
   destroy(): void;
-  
-  // Async-specific methods
-  reload(...params: P): Promise<void>;     // Force reload
-  refresh(...params: P): Promise<void>;    // Smart refresh
-  mutate(mutator: (data: T | null) => T): void;  // Optimistic update
-  reset(): void;                           // Reset to initial state
-  cleanup(): void;                         // Clean up timers
-  setParams(...params: P): void;           // Set parameters
-}
-
-interface AsyncState<T, E extends Error> {
-  loading: boolean;
-  error: E | null;
-  data: T | null;
-  lastFetched?: number;
 }
 ```
----
 
-Next: Before we learn how to merge multiple async states efficiently, let me introduce the ```once``` utility function. 🚀
+## Why Use AsyncChunk?
+
+⚡ Auto-handles loading & errors
+🧠 Built-in cache & retry logic
+🔒 Type-safe and clean
+🌍 Works in any JS or TS app
+
+Next: let’s look at **`once`** — run something only one time, no matter what. 🚀
+
+```
+Want me to move on and rewrite the **`once` utility** page next (same simple tone)?
+```
