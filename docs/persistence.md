@@ -2,57 +2,55 @@
 title: State Persistence
 ---
 
-# 💾 Persistence – Save State Across Reloads
+# 💾 Persistence
 
-Stunk provides state persistence with `withPersistence`, allowing your state to be saved and restored even after a page refresh.
+`withPersistence` lets your chunks save and restore state automatically — even after page reloads.
 
-## Enabling Persistence
+## Basic Example
 
-To persist a chunk’s state, wrap it with `withPersistence` and provide a storage key:
-
-```typescript
+```ts
 import { chunk } from "stunk";
 import { withPersistence } from "stunk/middleware";
 
-const counterChunk = withPersistence(chunk({ count: 0 }), {
+const counter = withPersistence(chunk({ count: 0 }), {
   key: "counter-state",
 });
 
-// State automatically persists to localStorage
-counterChunk.set({ count: 1 });
-```
+counter.set({ count: 1 });
+// ✅ Saved to localStorage automatically
+````
 
-## Using Different Storage Options
+## Custom Storage
 
-By default, `withPersistence` uses `localStorage`, but you can switch to `sessionStorage`, etc:
+Use `sessionStorage` or any custom `Storage` object.
 
-```typescript
-const sessionStorageChunk = withPersistence(chunk(0), {
-  key: "counter",
-  storage: sessionStorage, // Uses sessionStorage instead of localStorage
+```ts
+const score = withPersistence(chunk(0), {
+  key: "game-score",
+  storage: sessionStorage,
 });
 ```
 
-## Custom Serialization & Encryption
+## Custom Serialization
 
-You can define custom serialization and deserialization to transform data before storing it:
+Transform data before saving — for example, encrypting it.
 
-```typescript
-const encryptedChunk = withPersistence(chunk({ secret: "1234" }), {
-  key: "encrypted-data",
-  serialize: (value) => encrypt(JSON.stringify(value)),
-  deserialize: (value) => JSON.parse(decrypt(value)),
+```ts
+const userData = withPersistence(chunk({ token: "abcd1234" }), {
+  key: "secure-user",
+  serialize: (v) => encrypt(JSON.stringify(v)),
+  deserialize: (v) => JSON.parse(decrypt(v)),
 });
 ```
 
-## Why Use Persistence?
+## Why Use It?
 
-✅ Save user state across reloads  
-✅ Improve user experience by retaining settings  
-✅ Support custom storage and security methods
+✅ Keeps state after reloads
+✅ Works with any storage
+✅ Supports custom encode/decode logic
 
----
+Use `withPersistence` for things like user sessions, app settings, or saved form data.
 
-Next: `AsyncChunk` – Handling Loading & Errors ⚡
-
-Learn how to manage asynchronous state with built-in loading and error handling! 🚀
+```
+Next one up — do you want me to rewrite **AsyncChunk** next (same tone, short and clear)?
+```
