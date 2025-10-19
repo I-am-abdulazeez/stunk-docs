@@ -1,16 +1,15 @@
 ---
-title: State Selections - Readonly Values
+title: Readonly State Hooks
 ---
 
-# Optimized State Selection Hooks
+# 🧩 Readonly & Optimized State Hooks
 
-Stunk provides powerful hooks for efficient state selection in React. These hooks help optimize re-renders by allowing components to subscribe to specific parts of a Chunk, read-only values, or multiple chunks at once.
+Stunk gives you simple hooks to read state efficiently — perfect for components that don’t need to modify anything.
 
-## `useChunkValue` – Read-Only Subscription
+## 🔍 `useChunkValue`
 
-`useChunkValue` is a lightweight hook that subscribes to a Chunk and returns its current value. It is useful for read-only components that don’t need to modify the state.
-
-## Usage
+A lightweight hook that subscribes to a chunk and returns **only its current value**.  
+Ideal for read-only components.
 
 ```tsx
 import { chunk } from "stunk";
@@ -18,78 +17,70 @@ import { useChunkValue } from "stunk/react";
 
 const count = chunk(0);
 
-const CounterDisplay = () => {
+function CounterDisplay() {
   const value = useChunkValue(count);
-
   return <p>Count: {value}</p>;
-};
-```
+}
+````
 
-✅ Minimal Overhead – Only retrieves state without exposing update functions.
-
-✅ Supports Selectors – Can be used with a selector for fine-grained state selection:
+✅ **No extra functions** — just reads the value
+✅ **Selector support** — read a specific part of the chunk
 
 ```tsx
-const user = chunk({ name: "John", age: 30 });
+const user = chunk({ name: "Fola", age: 30 });
 
-const UserAge = () => {
+function UserAge() {
   const age = useChunkValue(user, (u) => u.age);
   return <p>Age: {age}</p>;
-};
+}
 ```
 
-## `useChunkProperty` – Subscribe to a Specific Property
+## 🧱 `useChunkProperty`
 
-`useChunkProperty` allows you to subscribe to a specific property of a Chunk. This ensures that components only re-render when the selected property changes, preventing unnecessary updates.
-
-## Usage
+Subscribe to a single property inside an object chunk.
+The component re-renders **only when that property changes**.
 
 ```tsx
 import { chunk } from "stunk";
 import { useChunkProperty } from "stunk/react";
 
-const user = chunk({ name: "John", age: 30 });
+const user = chunk({ name: "Abdulzeez", age: 25 });
 
-const UserName = () => {
+function UserName() {
   const name = useChunkProperty(user, "name");
-
   return <p>Name: {name}</p>;
-};
+}
 ```
 
-✅ Optimized Re-renders – The component only updates if name changes, not age.
+✅ Prevents extra re-renders
+✅ Perfect for object-based state
 
-## `useChunkValues` – Read Multiple Chunks
+## 🔗 `useChunkValues`
 
-`useChunkValues` allows you to subscribe to multiple Chunks and retrieve their values as an array-like object. The component only re-renders when any of the values change.
-
-## Usage
+Read multiple chunks at once.
+Re-renders only when any of them change.
 
 ```tsx
-const firstName = chunk("John");
-const lastName = chunk("Doe");
+const firstName = chunk("Qudus");
+const lastName = chunk("Asake");
 
-const FullName = () => {
+function FullName() {
   const [first, last] = useChunkValues([firstName, lastName]);
-
-  return (
-    <p>
-      Full Name: {first} {last}
-    </p>
-  );
-};
+  return <p>{first} {last}</p>;
+}
 ```
 
-✅ Efficient Multi-State Selection – Reacts only when any of the provided Chunks update.
+✅ Reactive across multiple chunks
+✅ Clean and easy to read
 
-✅ Flexible & Readable – Simplifies state selection for components that rely on multiple Chunks.
+## ⚡ Summary
 
-## 🚀 Conclusion
+| Hook               | Purpose                             |
+| ------------------ | ----------------------------------- |
+| `useChunkValue`    | Read-only access to a chunk         |
+| `useChunkProperty` | Subscribe to one property only      |
+| `useChunkValues`   | Combine values from multiple chunks |
 
-These selection hooks provide optimized and fine-grained reactivity in Stunk-powered React apps:
+These keep your components **fast, reactive, and clean** — no wasted re-renders, no boilerplate. 🚀
 
-`useChunkProperty` – Subscribe to a specific property inside a Chunk.  
-`useChunkValue` – Get a read-only subscription to a Chunk’s value.  
-`useChunkValues` – Read multiple Chunks at once efficiently.
-
-By using these **hooks**, you can improve performance and minimize unnecessary re-renders, making your React components more efficient and responsive.
+```
