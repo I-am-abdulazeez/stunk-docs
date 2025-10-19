@@ -139,7 +139,3 @@ interface AsyncChunk<T> {
 🌍 Works in any JS or TS app
 
 Next: let’s look at **`once`** — run something only one time, no matter what. 🚀
-
-```
-Want me to move on and rewrite the **`once` utility** page next (same simple tone)?
-```
