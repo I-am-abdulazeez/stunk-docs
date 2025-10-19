@@ -2,268 +2,123 @@
 title: Selectors
 ---
 
-# 🧩 State Selection
+# 🧩 Selectors
 
-Sometimes, you don't need the entire state—just a specific part of it. With **Stunk**, you can efficiently **select and react to** specific properties without unnecessary re-renders using the powerful `select` function.
+`select` lets you create **readonly derived chunks** from another chunk.  
+It helps you listen to just the part of state you care about — without unnecessary updates.
 
-## Basic Selection
+## Basic Example
 
-Use `select` to create **readonly** chunks derived from an existing chunk:
-
-```typescript
+```ts
 import { chunk, select } from "stunk";
 
-const userChunk = chunk({
-  name: "Olamide",
-  age: 30,
-  email: "olamide@example.com",
+const user = chunk({
+  name: "Abdulzeez",
+  age: 28,
+  email: "abdulzeez@example.com",
 });
 
-// Select specific properties (readonly)
-const nameChunk = select(userChunk, (state) => state.name);
-const ageChunk = select(userChunk, (state) => state.age);
+const name = select(user, (u) => u.name);
+const age = select(user, (u) => u.age);
 
-// Subscribe to receive updates
-nameChunk.subscribe((name) => console.log("Name changed:", name));
-ageChunk.subscribe((age) => console.log("Age changed:", age));
+name.subscribe((n) => console.log("Name:", n));
+age.subscribe((a) => console.log("Age:", a));
+````
+
+```ts
+user.set((u) => ({ ...u, name: "Fola" }));
+// ✅ name updates automatically
 ```
 
-## Readonly Nature of Selectors
+## Readonly by Design
 
-Selected chunks are **readonly** - you cannot modify them directly:
+Selectors can’t be updated directly — only through their source chunk.
 
-```typescript
-// ❌ This will throw an error! nameChunk is readonly.
-nameChunk.set("Fola");
-
-// ❌ Reset is also not allowed on selectors
-nameChunk.reset();
-
-// ✅ Update the source chunk instead
-userChunk.set((state) => ({ ...state, name: "Fola" }));
-// This will automatically update nameChunk and notify its subscribers
+```ts
+name.set("Qudus"); // ❌ throws error
+user.set((u) => ({ ...u, name: "Qudus" })); // ✅ correct way
 ```
 
-## Selecting Nested Properties
+## Nested Selection
 
-Here's how to efficiently select and react to deeply nested properties:
+You can easily select nested data:
 
-```typescript
-const userChunk = chunk({
-  profile: {
-    name: "Olamide",
-    age: 30,
-    email: "olamide@example.com",
-  },
-  settings: {
-    theme: "dark",
-    notifications: true,
-  },
-  preferences: {
-    language: "en",
-    timezone: "UTC",
-  }
+```ts
+const app = chunk({
+  profile: { name: "Aduke", age: 22 },
+  settings: { theme: "dark" },
 });
 
-// Select deeply nested properties (readonly)
-const nameChunk = select(userChunk, (state) => state.profile.name);
-const themeChunk = select(userChunk, (state) => state.settings.theme);
-const languageChunk = select(userChunk, (state) => state.preferences.language);
+const theme = select(app, (s) => s.settings.theme);
+theme.subscribe(console.log); // "dark"
 
-// Subscribe to selected properties
-nameChunk.subscribe((name) => console.log("Name changed:", name));
-themeChunk.subscribe((theme) => console.log("Theme changed:", theme));
+app.set((s) => ({
+  ...s,
+  settings: { ...s.settings, theme: "light" },
+}));
+// ✅ only theme subscribers are notified
 ```
 
-## Optimized Updates
+## Shallow Equality Optimization
 
-Selectors only trigger updates when their specific selected value changes:
+For arrays or objects, use shallow equality to skip redundant updates.
 
-```typescript
-// Update the name - only nameChunk subscribers will be notified
-userChunk.set((state) => ({
-  ...state,
-  profile: { ...state.profile, name: "David" }
-}));
-// Logs: "Name changed: David"
-
-// Update the theme - only themeChunk subscribers will be notified
-userChunk.set((state) => ({
-  ...state,
-  settings: { ...state.settings, theme: "light" }
-}));
-// Logs: "Theme changed: light"
-
-// Update email - no selector subscribers are notified (optimization!)
-userChunk.set((state) => ({
-  ...state,
-  profile: { ...state.profile, email: "new@example.com" }
-}));
-// No logs from selectors - they weren't affected
-```
-
-## Advanced Selection Options
-
-### Shallow Equality Optimization
-
-For complex objects or arrays, you can enable shallow equality checking to prevent unnecessary updates:
-
-```typescript
-const todosChunk = chunk([
-  { id: 1, text: "Learn Stunk", completed: false },
-  { id: 2, text: "Build app", completed: true },
+```ts
+const todos = chunk([
+  { id: 1, text: "Learn Stunk", done: false },
+  { id: 2, text: "Ship feature", done: true },
 ]);
 
-// Select completed todos with shallow equality checking
-const completedTodos = select(
-  todosChunk, 
-  (todos) => todos.filter(todo => todo.completed),
-  { useShallowEqual: true }
-);
-
-completedTodos.subscribe((completed) => {
-  console.log("Completed todos:", completed.length);
-});
-
-// This won't trigger the selector if the filtered result is the same
-todosChunk.set(current => [...current]); // Array reference changes but content is same
-```
-
-### Chaining Selectors
-
-You can chain selectors to create more focused selections:
-
-```typescript
-const appState = chunk({
-  user: {
-    profile: { name: "Olamide", settings: { theme: "dark" } },
-    posts: [{ id: 1, title: "Hello World" }]
-  }
-});
-
-// First level selection
-const userChunk = select(appState, (state) => state.user);
-
-// Second level selection using the derive method (which uses select internally)
-const userProfileChunk = userChunk.derive((user) => user.profile);
-const userPostsChunk = userChunk.derive((user) => user.posts);
-
-// Third level selection
-const themeChunk = userProfileChunk.derive((profile) => profile.settings.theme);
-```
-
-## Complex Transformations
-
-Selectors can perform complex transformations on your data:
-
-```typescript
-const productsChunk = chunk([
-  { id: 1, name: "Laptop", price: 1000, category: "electronics" },
-  { id: 2, name: "Book", price: 20, category: "books" },
-  { id: 3, name: "Phone", price: 800, category: "electronics" },
-]);
-
-// Select and transform data
-const expensiveElectronics = select(
-  productsChunk,
-  (products) => products
-    .filter(p => p.category === "electronics" && p.price > 500)
-    .map(p => ({ ...p, displayName: `${p.name} ($${p.price})` }))
-);
-
-const productStats = select(productsChunk, (products) => ({
-  total: products.length,
-  categories: [...new Set(products.map(p => p.category))],
-  averagePrice: products.reduce((sum, p) => sum + p.price, 0) / products.length,
-  mostExpensive: products.reduce((max, p) => p.price > max.price ? p : max)
-}));
-```
-
-## Memory Management
-
-Selectors automatically clean up when destroyed:
-
-```typescript
-const sourceChunk = chunk({ value: 1 });
-const selectedChunk = select(sourceChunk, (state) => state.value);
-
-// When you destroy a selector, it unsubscribes from the source
-selectedChunk.destroy();
-
-// When you destroy the source, all its selectors are also cleaned up
-sourceChunk.destroy();
-```
-
-## Performance Best Practices
-
-1. **Use shallow equality for objects**: Enable `useShallowEqual` when selecting complex objects or arrays
-2. **Keep selectors focused**: Select only what you need to minimize unnecessary computations
-3. **Avoid complex transformations**: For heavy computations, consider using `computed` instead
-4. **Clean up selectors**: Always destroy selectors when they're no longer needed
-
-```typescript
-// ✅ Good - focused selection
-const userName = select(userChunk, (user) => user.name);
-
-// ❌ Avoid - selecting entire objects when you only need part
-const entireUser = select(appState, (state) => state.user); // If you only need the name
-
-// ✅ Good - using shallow equality for arrays
-const filteredItems = select(
-  itemsChunk, 
-  (items) => items.filter(item => item.active),
+const completed = select(
+  todos,
+  (list) => list.filter((t) => t.done),
   { useShallowEqual: true }
 );
 ```
 
-## Error Handling
+If the content doesn’t actually change, subscribers won’t re-trigger.
 
-Selectors include built-in error handling:
+## Chaining Selectors
 
-```typescript
-const dataChunk = chunk({ user: { name: "John" } });
+Selectors can derive from each other:
 
-// Safe selection with optional chaining
-const safeNameChunk = select(dataChunk, (data) => data.user?.name || "Unknown");
-
-// The selector will handle cases where the structure changes
-dataChunk.set({ user: null }); // safeNameChunk will emit "Unknown"
-```
-
-## Why Use State Selection?
-
-✅ **Optimized Performance** → Only updates when the selected value actually changes  
-✅ **Avoid Unnecessary Renders** → Components subscribed to a selection won't re-render if other properties change  
-✅ **Readonly Safety** → Prevents accidental state modifications outside the main chunk  
-✅ **Memory Efficient** → Automatic cleanup and subscription management  
-✅ **Type Safe** → Full TypeScript support with proper type inference
-
-## Common Patterns
-
-### Form Field Selection
-```typescript
-const formChunk = chunk({
-  name: "", email: "", age: 0, errors: {}
+```ts
+const app = chunk({
+  user: { info: { name: "Asake", theme: "dark" } },
 });
 
-const nameField = select(formChunk, (form) => form.name);
-const emailField = select(formChunk, (form) => form.email);
-const formErrors = select(formChunk, (form) => form.errors);
+const user = select(app, (s) => s.user);
+const info = user.derive((u) => u.info);
+const theme = info.derive((i) => i.theme);
 ```
 
-### UI State Selection
-```typescript
-const uiState = chunk({
-  sidebar: { open: false, width: 250 },
-  modal: { visible: false, content: null },
-  theme: "light"
-});
+## Cleanup
 
-const sidebarOpen = select(uiState, (state) => state.sidebar.open);
-const modalVisible = select(uiState, (state) => state.modal.visible);
-const currentTheme = select(uiState, (state) => state.theme);
+Selectors unsubscribe automatically when destroyed:
+
+```ts
+const source = chunk({ value: 1 });
+const selected = select(source, (s) => s.value);
+
+selected.destroy(); // stops listening
 ```
 
----
+## Best Practices
 
-Want to update multiple chunks efficiently while notifying subscribers just once? Let's dive into Batch Updates next! 🚀
+✅ Use `useShallowEqual` for arrays/objects
+✅ Select only what you need
+✅ Avoid heavy transformations (use `computed` instead)
+✅ Clean up unused selectors
+
+## Why Use `select`?
+
+⚡ Improves performance
+🧠 Prevents unwanted updates
+🔒 Readonly and safe
+💡 Works great with derived state
+
+Next: **Batch Updates** — update multiple chunks efficiently 🚀
+
+```
+Want me to move straight to **Batch Updates** next, same tone and simplicity?
+```
