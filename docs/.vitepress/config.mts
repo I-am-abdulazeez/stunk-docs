@@ -67,7 +67,8 @@ export default defineConfig({
               {
                 text: 'State Persistence', link: '/persistence'
               },
-            ]
+            ],
+            collapsed: true
           },
           {
             text: "Async State", items: [
