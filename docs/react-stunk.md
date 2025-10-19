@@ -2,19 +2,22 @@
 title: React + Stunk
 ---
 
-# ⚛️ React Stunk
+# ⚛️ React + Stunk
 
-Stunk integrates effortlessly with React through the `useChunk` hook, enabling components to reactively read and update state from a Chunk.
+Stunk works perfectly with React using the `useChunk` hook.  
+It makes your components react to state changes instantly — no extra setup.
 
-### Why use `useChunk`?
+---
 
-✅ Reactive & Efficient – Automatically updates components when state changes.  
-✅ Optimized Rendering – Supports selectors to prevent unnecessary re-renders.  
-✅ Simple & Flexible – Works with primitive values, objects, and async state.
+## 💡 Why `useChunk`?
 
-## Installation
+✅ **Reactive & Fast** – Updates UI automatically when the chunk changes  
+✅ **Optimized Rendering** – Use selectors to avoid unnecessary re-renders  
+✅ **Simple & Flexible** – Works with numbers, objects, or async state  
 
-Install `stunk` if you have not.
+## 📦 Installation
+
+Install Stunk in your React project:
 
 ```bash
 # npm
@@ -24,12 +27,13 @@ npm install stunk
 yarn add stunk
 
 # pnpm
-pnpm install stunk
+pnpm add stunk
 
 # bun
 bun add stunk
-```
+````
 
-### 🔗 What’s Next?
+## 🚀 What’s Next?
 
-Now, let’s dive into how `useChunk` works and how to use it effectively in your React components. 🚀
+Next, we’ll learn how to use the `useChunk` hook inside React components —
+to read, update, and react to state changes effortlessly.
