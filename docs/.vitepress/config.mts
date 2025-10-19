@@ -86,10 +86,11 @@ export default defineConfig({
         text: 'React Stunk',
         items: [
           { text: 'Introduction', link: '/react-stunk' },
-          { text: 'useChunk', link: '/useChunk' },
-          { text: 'useDerive', link: '/useDerive' },
-          { text: 'useComputed', link: '/useComputed' },
-          { text: 'useAysncChunk', link: '/useAysncChunk' },
+          { text: 'useChunk', link: '/use-chunk' },
+          { text: 'useDerive', link: '/use-derive' },
+          { text: 'useComputed', link: '/use-computed' },
+          { text: 'useAysncChunk', link: '/use-aysnc-chunk' },
+          { text: 'useInfiniteChunk', link: '/use-inifinite-async-chunk' },
           { text: 'State Selections - Readonly', link: '/read-only-values' },
         ]
       },
