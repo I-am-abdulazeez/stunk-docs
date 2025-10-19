@@ -1,71 +1,82 @@
 ---
-title: Combine Async Chunks
+title: combineAsyncChunks
 ---
 
-# 🔗 Combine Async Chunks
+# 🔗 combineAsyncChunks
 
-The `combineAsyncChunks` utility lets you merge multiple async chunks into one, ensuring they stay reactive and synchronized. This is useful when handling multiple related API calls, like fetching user data and posts at the same time.
+`combineAsyncChunks` merges multiple **async chunks** into one reactive chunk.  
+It tracks **loading**, **error**, and **data** states across all sources — perfect for managing multiple parallel API calls.
 
-## Key Features?
+## ⚡ Basic Example
 
-✅ Automatically re-renders UI when either userChunk or postsChunk updates.  
-✅ Handles loading and errors seamlessly.
-
-## Fetching Individual Async Chunks
-
-```typescript
+```ts
 import { asyncChunk, combineAsyncChunks } from "stunk";
 
-// Fetch user data
+// User data
 const userChunk = asyncChunk(async () => {
-  const response = await fetch("/api/user");
-  return response.json();
+  const res = await fetch("/api/user");
+  return res.json();
 });
 
-// Fetch posts with options
-const postsChunk = asyncChunk(
-  async () => {
-    const response = await fetch("/api/posts");
-    return response.json();
-  },
-  {
-    initialData: [], // Start with empty data
-    retryCount: 3, // Retry up to 3 times on failure
-    retryDelay: 2000, // Wait 2 seconds before retrying
-    onError: (error) => console.error("Failed to fetch posts:", error),
-  }
-);
-```
+// User posts
+const postsChunk = asyncChunk(async () => {
+  const res = await fetch("/api/posts");
+  return res.json();
+});
 
-## Combining Async Chunks
-
-```typescript
+// Combine both
 const profileChunk = combineAsyncChunks({
   user: userChunk,
   posts: postsChunk,
 });
+````
+
+Now `profileChunk` is a single **reactive chunk** with this shape:
+
+```ts
+{
+  loading: boolean;
+  error: Error | null;
+  errors: Record<string, Error>;
+  data: {
+    user: User | null;
+    posts: Post[] | null;
+  };
+}
 ```
 
-This merges `userChunk` and `postsChunk` into a single reactive `chunk`, keeping their `states` in sync.
+## 🔁 Reactivity Example
 
-## Subscribing to the Combined State
-
-```typescript
+```ts
 profileChunk.subscribe(({ loading, error, data }) => {
-  if (loading) {
-    showLoadingSpinner();
-  } else if (error) {
-    showError(error);
-  } else {
-    updateUI(data);
-  }
+  if (loading) console.log("Loading...");
+  else if (error) console.error("Error:", error);
+  else console.log("Profile data:", data);
 });
 ```
 
-## ✨ Why Use `combineAsyncChunks`?
+✅ Updates automatically when **any** async chunk changes
+✅ Keeps partial results while others are loading
+✅ Aggregates errors and loading states cleanly
 
-✅ Maintains Reactivity: Automatically updates when any async chunk changes.  
-✅ Preserves Data on Reloads: Keeps previous data intact while fetching new updates.  
-✅ Handles Errors Gracefully: Propagates errors properly across combined chunks.
+## 🧠 Why Use It?
 
-More powerful `utils` coming soon! 🔥
+| Benefit                           | Description                                           |
+| --------------------------------- | ----------------------------------------------------- |
+| 🔄 **Synchronized Loading**       | Combines multiple async states into one cohesive view |
+| ⚙️ **Centralized Error Handling** | Collects all errors in one place                      |
+| 💾 **Partial Data Support**       | Keeps old data while new requests load                |
+| ⚡ **Full Reactivity**             | Auto-updates when any source chunk updates            |
+
+### Example Use Case
+
+```ts
+const dashboard = combineAsyncChunks({
+  profile: profileChunk,
+  stats: statsChunk,
+  notifications: notificationsChunk,
+});
+```
+
+You can now manage **entire dashboard state** with one chunk —
+reactive, efficient, and fully composable. 🚀
