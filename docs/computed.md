@@ -2,212 +2,105 @@
 title: Computed
 ---
 
-# Computed
+# ⚡ Computed
 
-Computed Chunks in Stunk allow you to create state derived from other chunks in a reactive way. Unlike derived chunks, computed chunks can depend on multiple sources, and they automatically recalculate when any of the source chunks change.
+`computed` lets you create reactive state derived from one or more chunks.  
+When any dependency changes, the computed chunk updates automatically.
 
-```typescript
+
+## Basic Example
+
+```ts
 import { chunk, computed } from "stunk";
 
-// Define base chunks
-const firstNameChunk = chunk("Olamide");
-const lastNameChunk = chunk("David");
-const ageChunk = chunk(25);
-```
+const firstName = chunk("Abdulzeez");
+const lastName = chunk("Fola");
+const age = chunk(25);
 
-Create a `computed` chunk, then subscribe to receive updates
-
-```typescript
-const fullInfoChunk = computed(
-  // takes the multiple chunk as dependecy array.
-  [firstNameChunk, lastNameChunk, ageChunk],
-  (firstName, lastName, age) => ({
-    fullName: `${firstName} ${lastName}`,
-    isAdult: age >= 18,
+const userInfo = computed(
+  [firstName, lastName, age],
+  (first, last, years) => ({
+    fullName: `${first} ${last}`,
+    isAdult: years >= 18,
   })
 );
 
-// Subscribe to changes
-fullInfoChunk.subscribe((info) => console.log("Updated Info:", info));
+userInfo.subscribe((info) => console.log("Updated:", info));
+
+
+firstName.set("Qudus"); // ✅ userInfo updates automatically
+age.set(16); // ✅ isAdult becomes false
 ```
 
-Update dependencies
 
-```typescript
-// Update dependencies
-firstNameChunk.set("John"); // ✅ fullInfoChunk updates automatically
-ageChunk.set(16); // ✅ isAdult will update to false
-```
+## Cart Total Example
 
-**`computed` example: `cartTotalChunk`, which calculates the total price based on cart items.**
-
-```typescript
-import { chunk, computed } from "stunk";
-
-// Define base chunks
-const cartItemsChunk = chunk([
-  { name: "Laptop", price: 1000, quantity: 1 },
-  { name: "Mouse", price: 50, quantity: 2 },
+```ts
+const cartItems = chunk([
+  { name: "Laptop", price: 1000, qty: 1 },
+  { name: "Mouse", price: 50, qty: 2 },
 ]);
-```
 
-**Create a `computed` chunk, then subscribe to receive updates**
-
-```typescript
-// Create a computed chunk
-const cartTotalChunk = computed([cartItemsChunk], (cartItems) => ({
-  totalItems: cartItems.reduce((sum, item) => sum + item.quantity, 0),
-  totalPrice: cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  ),
+const cartTotal = computed([cartItems], (items) => ({
+  totalItems: items.reduce((sum, i) => sum + i.qty, 0),
+  totalPrice: items.reduce((sum, i) => sum + i.price * i.qty, 0),
 }));
 
-// Subscribe to changes
-cartTotalChunk.subscribe((cartTotal) =>
-  console.log("Updated Cart:", cartTotal)
-);
-```
+cartTotal.subscribe((total) => console.log("Cart:", total));
 
-**Update dependencies**
-
-```typescript
-// Update dependencies
-cartItemsChunk.set([
-  ...cartItemsChunk.get(),
-  { name: "Keyboard", price: 80, quantity: 1 },
+cartItems.set([
+  ...cartItems.get(),
+  { name: "Keyboard", price: 80, qty: 1 },
 ]);
-// ✅ `totalItems` and `totalPrice` update automatically
+// ✅ totals update instantly
 ```
 
-## Advanced Examples
+## Advanced Example
 
-**`computed` example: `userStatusChunk`, which tracks the online status of users and calculates active/inactive counts dynamically.**
-
-```typescript
-import { chunk, computed } from "stunk";
-
-// Define base chunks
-const usersChunk = chunk([
-  { id: 1, name: "Alice", online: true },
-  { id: 2, name: "Bob", online: false },
-  { id: 3, name: "Charlie", online: true },
+```ts
+const users = chunk([
+  { id: 1, name: "Aduke", online: true },
+  { id: 2, name: "Asake", online: false },
 ]);
 
-const showOnlineOnlyChunk = chunk(false); // Toggle to show only online users
+const showOnlineOnly = chunk(false);
+
+const userStats = computed([users, showOnlineOnly], (list, onlineOnly) => {
+  const filtered = onlineOnly ? list.filter(u => u.online) : list;
+  return {
+    total: list.length,
+    online: list.filter(u => u.online).length,
+    offline: list.filter(u => !u.online).length,
+    visible: filtered,
+  };
+});
+
+userStats.subscribe(console.log);
 ```
 
-**Create a `computed` chunk, then subscribe to receive updates**
-
-```typescript
-// Create a computed chunk
-const userStatusChunk = computed(
-  [usersChunk, showOnlineOnlyChunk],
-  (users, showOnlineOnly) => {
-    // Filter users if showOnlineOnly is true
-    const filteredUsers = showOnlineOnly
-      ? users.filter((user) => user.online)
-      : users;
-
-    return {
-      totalUsers: users.length,
-      onlineUsers: users.filter((user) => user.online).length,
-      offlineUsers: users.filter((user) => !user.online).length,
-      displayedUsers: filteredUsers,
-    };
-  }
-);
-
-// Subscribe to changes
-userStatusChunk.subscribe((status) =>
-  console.log("Updated User Status:", status)
-);
+```ts
+showOnlineOnly.set(true);
+users.set([...users.get(), { id: 3, name: "Fola", online: true }]);
 ```
 
-**Update dependencies**
+## Recompute and Reset
 
-```typescript
-// Update dependencies
-showOnlineOnlyChunk.set(true); // ✅ Only online users will be displayed
-usersChunk.set([...usersChunk.get(), { id: 4, name: "David", online: true }]); // ✅ Updates dynamically when users change
+Each computed chunk has:
 
-usersChunk.set([
-  { id: 1, name: "Alice", online: false },
-  { id: 2, name: "Bob", online: true },
-  { id: 3, name: "Charlie", online: false },
-  { id: 4, name: "David", online: true },
-]);
-// ✅ Updates user counts reactively
+```ts
+userInfo.recompute(); // Manually force recalculation
+userInfo.reset();     // Resets dependencies and recomputes
+userInfo.isDirty();   // Check if recomputation is pending
 ```
 
-**`computed` example: `filteredAndSortedTodosChunk`, which dynamically filters and sorts todos based on user-selected criteria.**
 
-```typescript
-import { chunk, computed } from "stunk";
+## Why Computed?
 
-// Define base chunks
-const todosChunk = chunk([
-  { id: 1, text: "Learn Stunk", completed: true, priority: "high" },
-  { id: 2, text: "Build a project", completed: false, priority: "medium" },
-  { id: 3, text: "Read a book", completed: false, priority: "low" },
-]);
+✅ Updates automatically
+✅ Keeps logic clean
+✅ Depends on multiple chunks
+✅ Optimized with shallow comparison
 
-const filterChunk = chunk<"all" | "completed" | "active">("all");
-const sortChunk = chunk<"priority" | "alphabetical">("priority");
+Use `computed` when your state is **derived** from other chunks — like totals, filters, or combined data.
+
 ```
-
-```typescript
-// Create a computed chunk
-const filteredAndSortedTodosChunk = computed(
-  [todosChunk, filterChunk, sortChunk],
-  (todos, filter, sort) => {
-    // Apply filtering
-    let filteredTodos = todos;
-    if (filter === "completed") {
-      filteredTodos = todos.filter((todo) => todo.completed);
-    } else if (filter === "active") {
-      filteredTodos = todos.filter((todo) => !todo.completed);
-    }
-
-    // Apply sorting
-    if (sort === "priority") {
-      filteredTodos = filteredTodos.sort((a, b) => {
-        const priorityOrder = { high: 1, medium: 2, low: 3 };
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      });
-    } else if (sort === "alphabetical") {
-      filteredTodos = filteredTodos.sort((a, b) =>
-        a.text.localeCompare(b.text)
-      );
-    }
-
-    return filteredTodos;
-  }
-);
-
-// Subscribe to changes
-filteredAndSortedTodosChunk.subscribe((todos) =>
-  console.log("Updated Todos:", todos)
-);
-```
-
-**Update dependencies**
-
-```typescript
-// Update dependencies
-filterChunk.set("active"); // ✅ Filters only active todos
-sortChunk.set("alphabetical"); // ✅ Sorts alphabetically
-todosChunk.set([
-  ...todosChunk.get(),
-  { id: 4, text: "Workout", completed: false, priority: "high" },
-]);
-// ✅ Updates reactively based on filter & sort
-```
-
-## Why Use Computed Chunks?
-
-✅ **Automatic Updates** → Recomputes when dependencies change.  
-✅ **Optimized Performance** → Only recomputes when needed.  
-✅ **Derived State** → Keeps logic clean and centralized.
-
-**`computed` chunks** are ideal for scenarios where state depends on multiple sources or needs complex calculations. They ensure your application remains performant and maintainable.
