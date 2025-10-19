@@ -14,8 +14,6 @@ Use it to:
 
 You can attach one or more middlewares when creating a chunk.
 
----
-
 ## Built-in Middleware
 
 Stunk includes some ready-to-use middleware like `logger` and `nonNegativeValidator`.
@@ -32,8 +30,6 @@ age.set(30);
 age.set(-5);
 // ❌ Value must be non-negative!
 ````
-
----
 
 ## How It Works
 
@@ -55,8 +51,6 @@ export const nonNegativeValidator = (value, next) => {
 };
 ```
 
----
-
 ## Custom Middleware
 
 You can build your own.
@@ -75,8 +69,6 @@ const score = chunk(0, [maxValue(100)]);
 
 score.set(120); // → Above 100, setting to 100
 ```
-
----
 
 ## Range Middleware
 
@@ -100,8 +92,6 @@ temp.set(60);  // → Above 50, using 50
 temp.set(-10); // → Below 0, using 0
 ```
 
----
-
 ## Debounce Middleware
 
 Delay updates — useful for search or inputs.
@@ -119,19 +109,11 @@ search.set("Hel");
 search.set("Hello"); // Only "Hello" applies after 300ms
 ```
 
----
-
 ## Why Middleware?
 
 ✅ Keeps logic separate
 ✅ Stack multiple effects
 ✅ Reuse across chunks
 
----
-
 Next: ready to undo or redo changes?
 Let’s jump into **Time Travel** 🕒
-
-```
-
----
