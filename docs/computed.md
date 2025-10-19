@@ -102,5 +102,3 @@ userInfo.isDirty();   // Check if recomputation is pending
 ✅ Optimized with shallow comparison
 
 Use `computed` when your state is **derived** from other chunks — like totals, filters, or combined data.
-
-```
