@@ -69,6 +69,7 @@ export default defineConfig({
             ]
           },
           { text: 'Async State', link: '/async-chunk' },
+          { text: 'Async State', link: '/infinite-async-chunk' },
           {
             text: 'Utils', items: [
               {
