@@ -118,7 +118,3 @@ selected.destroy(); // stops listening
 💡 Works great with derived state
 
 Next: **Batch Updates** — update multiple chunks efficiently 🚀
-
-```
-Want me to move straight to **Batch Updates** next, same tone and simplicity?
-```
