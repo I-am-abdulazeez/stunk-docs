@@ -70,9 +70,9 @@ export default defineConfig({
             ]
           },
           {
-            text: "Async Chunk", items: [
-              { text: 'Async State', link: '/async-chunk' },
-              { text: 'Async State', link: '/infinite-async-chunk' },
+            text: "Async State", items: [
+              { text: 'Async Chunk', link: '/async-chunk' },
+              { text: 'InfiniteAsync State', link: '/infinite-async-chunk' },
             ],
             collapsed: true
           },
