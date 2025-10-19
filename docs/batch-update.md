@@ -7,8 +7,6 @@ title: Batch Updates
 Use `batch()` to group multiple chunk updates and trigger subscribers only once.  
 It makes your app faster and avoids extra renders.
 
----
-
 ## Example
 
 ```ts
@@ -35,8 +33,6 @@ batch(() => {
 
 All updates fire once.
 
----
-
 ## Nested Batches
 
 You can nest batches — only the outer one matters.
@@ -52,8 +48,6 @@ batch(() => {
 });
 ```
 
----
-
 ## Real Use
 
 ```ts
@@ -65,8 +59,6 @@ batch(() => {
   user.set(c => ({ ...c, name: "Fola Ade", theme: theme.get() }));
 });
 ```
-
----
 
 ## Derived Chunks
 
@@ -83,8 +75,6 @@ batch(() => {
 
 // → Double: 20
 ```
-
----
 
 ## Errors
 
@@ -103,8 +93,6 @@ try {
   console.log("Error:", e.message);
 }
 ```
-
----
 
 ## Async Note
 
@@ -125,15 +113,11 @@ batch(async () => {
 });
 ```
 
----
-
 ## Quick Tips
 
 ✅ Use for related updates
 ✅ Skip for single changes
 ✅ Great for forms, bulk updates, and API results
-
----
 
 ## Perf Check
 
@@ -147,10 +131,5 @@ console.timeEnd("with-batch");
 
 One notification, not 1000. ⚡
 
----
 
 Batching keeps Stunk fast and clean.
-
-```
-
----
