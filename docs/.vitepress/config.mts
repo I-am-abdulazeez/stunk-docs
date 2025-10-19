@@ -46,7 +46,8 @@ export default defineConfig({
         items: [
           { text: 'Introduction', link: '/introduction' },
           { text: 'Installation', link: '/installation' },
-        ]
+        ],
+        collapsed: true
       },
       {
         text: 'Core',
@@ -68,8 +69,13 @@ export default defineConfig({
               },
             ]
           },
-          { text: 'Async State', link: '/async-chunk' },
-          { text: 'Async State', link: '/infinite-async-chunk' },
+          {
+            text: "Async Chunk", items: [
+              { text: 'Async State', link: '/async-chunk' },
+              { text: 'Async State', link: '/infinite-async-chunk' },
+            ],
+            collapsed: true
+          },
           {
             text: 'Utils', items: [
               {
@@ -78,9 +84,11 @@ export default defineConfig({
               {
                 text: 'Combine Async Chunk', link: '/combine-async-chunk'
               },
-            ]
+            ],
+            collapsed: true
           },
-        ]
+        ],
+        collapsed: true
       },
       {
         text: 'React Stunk',
@@ -92,7 +100,8 @@ export default defineConfig({
           { text: 'useAysncChunk', link: '/use-aysnc-chunk' },
           { text: 'useInfiniteChunk', link: '/use-inifinite-async-chunk' },
           { text: 'State Selections - Readonly', link: '/read-only-values' },
-        ]
+        ],
+        collapsed: true
       },
 
     ],
