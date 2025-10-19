@@ -50,7 +50,3 @@ const userData = withPersistence(chunk({ token: "abcd1234" }), {
 ✅ Supports custom encode/decode logic
 
 Use `withPersistence` for things like user sessions, app settings, or saved form data.
-
-```
-Next one up — do you want me to rewrite **AsyncChunk** next (same tone, short and clear)?
-```
