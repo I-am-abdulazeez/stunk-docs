@@ -2,11 +2,13 @@
 title: useChunk Hook
 ---
 
-# useChunk
+# 🎯 useChunk
 
-`useChunk` is a React hook that integrates with Stunk, allowing components to reactively read and update state stored in a Chunk. It supports optional selectors for optimized state selection and minimal re-renders.
+`useChunk` connects your React components to a Stunk chunk — it automatically re-renders when the chunk’s state changes.
 
-## Basic Usage
+---
+
+## 💡 Basic Example
 
 ```tsx
 import { chunk } from "stunk";
@@ -14,62 +16,52 @@ import { useChunk } from "stunk/react";
 
 const count = chunk(0);
 
-const Counter = () => {
+function Counter() {
   const [value, set, reset] = useChunk(count);
 
   return (
     <div>
       <p>Count: {value}</p>
-      <button onClick={() => set((prev) => prev + 1)}>Increment</button>
-      <button onClick={() => reset()}>Reset</button>
+      <button onClick={() => set((prev) => prev + 1)}>+1</button>
+      <button onClick={reset}>Reset</button>
     </div>
   );
-};
-```
-
-### Understanding the Return Values
-
-`useChunk(chunk)` returns a tuple:
-
-- `value` – The current state.
-- `set(newValue | updaterFn)` – Directly sets a new value or Updates the state using the previous value.
-- `reset()` - Reset the `chunk` to its initial value. .
-- `destroy()` - Destroy the `chunk` and all its subscribers.
-
-## Using a Selector for Optimized Re-renders
-
-By default, `useChunk` causes a component to re-render whenever any part of the chunk changes. However, using a selector ensures that the component only re-renders when the selected part of the state updates.
-
-```tsx
-const count = chunk({ value: 0, timestamp: Date.now() });
-
-const SelectorExample = () => {
-  const [value] = useChunk(count, (state) => state.value);
-
-  return <p>Selected Count: {value}</p>;
-};
-```
-
-### Why use a selector?
-
-Without a selector, changes to `timestamp` would trigger re-renders even if `value` remains the same.
-With a selector, the component only updates when `state.value` changes.
-
-## Why Use `useChunk`?
-
-✅ **Automatic Reactivity** – Components re-render only when relevant state changes.  
-✅ **Selector Support** – Reduces unnecessary re-renders by picking only necessary parts of the state.  
-✅ **Simplified API** – Easy-to-use functions for setting and updating state.
-
-## Considerations
-
-- If the selector always returns the same value (e.g., `() => 1`), the component won’t re-render.
-- `useChunk` ensures stable references for `set`, so they don’t cause unnecessary renders.
-
-## 🚀 Conclusion
-
-`useChunk` provides an efficient way to integrate Stunk with React applications. By leveraging selectors and reactivity, it ensures performant state management with minimal boilerplate.
+}
+````
 
 ---
 
-Next up, let's explore `useDerive` and how we can use this powerful hook.
+## 📦 What It Returns
+
+`useChunk(chunk)` gives you a tuple:
+
+| Item        | Description                 |                  |
+| ----------- | --------------------------- | ---------------- |
+| `value`     | The current state           |                  |
+| `set(value  | updaterFn)`                 | Update the chunk |
+| `reset()`   | Reset to the initial value  |                  |
+| `destroy()` | Remove the chunk completely |                  |
+
+## 🎯 Using Selectors
+
+You can track only part of the chunk to avoid extra renders.
+
+```tsx
+const user = chunk({ name: "Aduke", age: 25 });
+
+function NameOnly() {
+  const [name] = useChunk(user, (state) => state.name);
+  return <p>{name}</p>;
+}
+```
+
+Without a selector, every change (like `age`) would re-render this component.
+With a selector, it re-renders **only** when `name` changes.
+
+## ✅ Why Use `useChunk`?
+
+* Auto-reactive updates
+* Works with primitives, objects, and async chunks
+* Supports selectors for better performance
+
+Next up: check out **`useDerive`** — create derived state easily from one or more chunks. ⚡
