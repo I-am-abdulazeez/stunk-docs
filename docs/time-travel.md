@@ -102,7 +102,3 @@ textChunk.redo(); // forward to "Hello Abdulzeez"
 
 
 Next: Learn how to **persist state across reloads** with `withPersistence` 💾
-
-```
-Would you like me to rewrite the `withPersistence` page next — in this same short, clean tone?
-```
